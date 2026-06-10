@@ -42,7 +42,7 @@ const hoverStyle = {
 export default function StackSection() {
   return (
     <section
-      className="px-6 sm:px-12 py-16 border-t max-w-[1200px] mx-auto"
+      className="site-shell section-pad border-t"
       style={{ borderColor: 'rgba(240,235,224,0.07)' }}
     >
       {/* Header */}
@@ -67,9 +67,8 @@ export default function StackSection() {
         {skills.map(({ cat, items }) => (
           <div
             key={cat}
-            className="grid py-4 items-start"
+            className="grid gap-3 md:grid-cols-[150px_1fr] md:gap-8 py-5 items-start"
             style={{
-              gridTemplateColumns: '160px 1fr',
               borderBottom: '1px solid rgba(240,235,224,0.05)',
             }}
           >
@@ -79,7 +78,7 @@ export default function StackSection() {
             >
               {cat}
             </span>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2.5">
               {items.map((item) => (
                 <span
                   key={item}

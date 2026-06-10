@@ -12,7 +12,7 @@ export default function Footer() {
       <div className="px-6 sm:px-12 py-7 max-w-[1200px] mx-auto flex flex-wrap justify-between items-center gap-4">
         <p className="font-mono text-[11px]" style={{ color: 'rgba(240,235,224,0.22)' }}>
           <span style={{ color: 'rgba(240,235,224,0.45)' }}>Zeba Ali</span>
-          {' '}· zebaali1415@gmail.com · +91 9953098290
+          {' '}· zebaali1514@gmail.com · +91 9953098290
         </p>
         <ul className="flex flex-wrap gap-6 list-none">
           {footerLinks.map((l) => (

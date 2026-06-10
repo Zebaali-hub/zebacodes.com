@@ -6,12 +6,9 @@ import { NewsletterForm } from '@/components/NewsletterForm'
 import StackSection from '@/components/StackSection'
 
 const oracleBullets = [
-  "Architected concurrent execution frameworks simulating enterprise workloads at up to 5 billion rows across Oracle RAC, Exadata, and Exascale — managing 100 simultaneous PDBs under configurable parallel thread loads, surfacing deadlock patterns, MVCC edge cases, and ORA-600/ORA-7445 kernel failures directly influencing Oracle RDBMS 23ai production hardening.",
-  "Designed and built Oracle team's first parameterized vector search query engine — 500+ configurable HNSW/IVF workloads benchmarking p50/p95/p99 latency, recall@k, and throughput at 5B row scale; adopted as standard workload library across Oracle RDBMS teams and cross-functional engineering groups.",
-  "Resolved 10+ priority Fortune 500 production escalations (global financial institutions + major technology companies) — reproduced ORA-600/ORA-7445 kernel failures, performed root cause analysis, coordinated cross-timezone with US development teams to deliver fixes within SLA; pre-empted several customer issues by independently discovering identical defects first.",
-  "Engineered automated data pipeline framework across 10+ enterprise schemas (MERCK, GE, MSTR, HARTFORD, POSTBANK); framework adopted team-wide. Identified and managed 200+ production defects (150 filed, 50 lifecycle managed); 13 shipped to releases (19RU, 23RU, 23ai) preventing enterprise outages.",
-  "Owned 4 RDBMS features end-to-end: Non-Positional INSERT, Object Number Reuse, Default VARCHAR2 Sizing, Nested WITH Clause (enabling MongoDB $lookup translation to Oracle SQL).",
-  "Worked hands-on with Java source code within Oracle RDBMS engineering — reviewed and validated developer Java changes for features owned end-to-end; worked with Oracle's internal Java-based CI/CD (Storch) and build platform (ADE), both following Spring Boot-style microservices architecture.",
+  "Architected Java concurrency frameworks stress-testing Oracle RDBMS at 5B rows across RAC, Exadata, and Exascale — surfacing deadlocks, MVCC edge cases, and kernel failures that fed into RDBMS 23ai hardening.",
+  "Built Oracle's first parameterized vector search benchmarking engine — 500+ HNSW/IVF workloads measuring p50/p95/p99 latency, recall@k, and throughput at 5B-row scale, adopted as the standard across RDBMS engineering teams.",
+  "Resolved 10+ Fortune 500 P1 escalations (ORA-600/ORA-7445 kernel failures) and owned 4 RDBMS features end-to-end, shipped across the 19RU, 23RU, and 23ai releases.",
 ]
 
 const projects = [
@@ -32,15 +29,21 @@ const projects = [
 const learningItems = [
   'Distributed Systems',
   'Java Internals & JVM',
-  'LLD / HLD',
+  'System Design (LLD/HLD)',
   'Spring Boot',
-  'DSA — Trees, Graphs',
 ]
 
 const proofChips = [
   'Oracle RDBMS 23ai / 19c',
   '5B-row stress testing',
   'Vector search benchmarking',
+]
+
+const proofStats = [
+  { value: '5B', label: 'Rows stress-tested' },
+  { value: '500+', label: 'Benchmark workloads built' },
+  { value: '10+', label: 'P1 escalations resolved' },
+  { value: '4', label: 'RDBMS features shipped' },
 ]
 
 function SectionHeader({ n, label }: { n: string; label: string }) {
@@ -78,8 +81,8 @@ export default async function HomePage() {
             className="absolute hidden sm:block font-display font-black italic select-none pointer-events-none"
             style={{
               bottom: '-32px',
-              left: 'max(24px, calc((100vw - 1200px) / 2))',
-              fontSize: 'clamp(120px, 18vw, 260px)',
+              left: 'clamp(1.5rem, 6vw, 5rem)',
+              fontSize: 'clamp(96px, 15vw, 210px)',
               color: 'transparent',
               WebkitTextStroke: '1px rgba(240,235,224,0.05)',
               lineHeight: 1,
@@ -91,10 +94,10 @@ export default async function HomePage() {
           </div>
 
           {/* Content grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] items-center px-6 sm:px-12 py-14 sm:py-18 lg:py-20 max-w-[1200px] mx-auto relative z-10 gap-12 lg:gap-14">
+          <div className="site-shell grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] items-center py-14 sm:py-16 lg:py-20 relative z-10 gap-12 lg:gap-16">
 
             {/* LEFT — text */}
-            <div className="lg:border-r lg:pr-12" style={{ borderColor: 'rgba(240,235,224,0.07)' }}>
+            <div className="lg:border-r lg:pr-12 min-w-0" style={{ borderColor: 'rgba(240,235,224,0.07)' }}>
               {/* Kicker */}
               <div
                 className="font-mono text-[10px] tracking-[0.2em] uppercase mb-8 flex items-center gap-3"
@@ -106,8 +109,8 @@ export default async function HomePage() {
 
               {/* Name */}
               <h1
-                className="font-display font-black leading-[0.88] tracking-[-3px] mb-0"
-                style={{ fontSize: 'clamp(72px, 9vw, 124px)' }}
+                className="font-display font-black leading-[0.95] tracking-[-3px] mb-2"
+                style={{ fontSize: 'clamp(64px, 8vw, 108px)' }}
               >
                 <span className="block" style={{ color: '#f5f1e8' }}>Zeba</span>
                 <span
@@ -119,10 +122,10 @@ export default async function HomePage() {
               </h1>
 
               {/* Divider */}
-              <div className="flex items-center my-7">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-0 my-7">
                 <div className="flex-1 h-px" style={{ background: 'rgba(240,235,224,0.07)' }} />
                 <div
-                  className="font-mono text-[10px] tracking-[0.14em] uppercase px-4"
+                  className="font-mono text-[10px] tracking-[0.14em] uppercase sm:px-4"
                   style={{ color: 'rgba(240,235,224,0.2)' }}
                 >
                   Java · Spring Boot · Oracle RDBMS · AI Infrastructure
@@ -148,7 +151,7 @@ export default async function HomePage() {
 
               {/* Bio */}
               <p
-                className="text-[16px] font-light leading-[1.82] mb-9 max-w-[560px]"
+                className="text-[16px] font-light leading-[1.9] mb-9 max-w-[620px]"
                 style={{ color: 'rgba(240,235,224,0.68)' }}
               >
                 I spent four years inside Oracle&apos;s Server Technologies Group working on{' '}
@@ -166,41 +169,40 @@ export default async function HomePage() {
               {/* CTAs */}
               <div className="flex gap-2.5 flex-wrap items-center">
                 <Link
-                  href="/writing"
+                  href="/projects"
                   className="font-sans text-[13px] font-medium px-5 py-2.5 rounded-md transition-all duration-150"
                   style={{ background: '#f5f1e8', color: '#0a0a0a' }}
                 >
-                  Read my writing →
+                  View projects →
                 </Link>
+                <a
+                  href="/Zeba_Ali_Resume_Final.docx"
+                  download
+                  className="font-sans text-[13px] font-medium px-4 py-2.5 rounded-md transition-all duration-150"
+                  style={{ border: '1px solid rgba(200,240,0,0.3)', color: '#c8f000' }}
+                >
+                  Resume ↓
+                </a>
                 <Link
-                  href="/projects"
+                  href="/writing"
                   className="font-sans text-[13px] font-normal px-4 py-2.5 rounded-md transition-all duration-150 hover:border-[#c8f000]"
                   style={{ border: '1px solid rgba(240,235,224,0.16)', color: 'rgba(240,235,224,0.72)' }}
                 >
-                  View projects
+                  Read my writing
                 </Link>
                 <a
-                  href="mailto:zebaali1415@gmail.com"
+                  href="mailto:zebaali1514@gmail.com"
                   className="font-sans text-[13px] font-normal px-4 py-2.5 rounded-md transition-all duration-150"
                   style={{ border: '1px solid rgba(240,235,224,0.16)', color: 'rgba(240,235,224,0.62)' }}
                 >
                   Get in touch
                 </a>
-                <a
-                  href="/Zeba_Ali_Resume_Final.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-sans text-[13px] font-normal px-4 py-2.5 rounded-md transition-all duration-150"
-                  style={{ border: '1px solid rgba(240,235,224,0.16)', color: 'rgba(240,235,224,0.62)' }}
-                >
-                  Resume ↗
-                </a>
               </div>
             </div>
 
             {/* RIGHT — photo + floating cards */}
-            <div className="flex flex-col items-center lg:pl-4">
-              <div className="relative w-full max-w-[330px] sm:max-w-[360px]">
+            <div className="flex flex-col items-center lg:items-end lg:pl-2">
+              <div className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[340px]">
                 {/* Photo */}
                 <div
                   className="relative overflow-hidden rounded-[4px]"
@@ -283,9 +285,32 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* Currently learning strip */}
+        {/* By the numbers */}
         <div
-          className="border-t px-6 sm:px-12 py-5 flex flex-wrap items-center gap-6 sm:gap-8 max-w-[1200px] mx-auto w-full"
+          className="site-shell border-t py-7 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8"
+          style={{ borderColor: 'rgba(240,235,224,0.06)' }}
+        >
+          {proofStats.map((stat) => (
+            <div key={stat.label}>
+              <div
+                className="font-display font-black leading-tight mb-1.5"
+                style={{ fontSize: 'clamp(26px, 3.4vw, 36px)', color: '#c8f000' }}
+              >
+                {stat.value}
+              </div>
+              <div
+                className="font-mono text-[10px] uppercase tracking-[0.12em]"
+                style={{ color: 'rgba(240,235,224,0.35)' }}
+              >
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Currently going deeper in */}
+        <div
+          className="site-shell border-t py-5 flex flex-wrap items-center gap-4 sm:gap-6"
           style={{ borderColor: 'rgba(240,235,224,0.06)' }}
         >
           <div
@@ -293,7 +318,7 @@ export default async function HomePage() {
             style={{ color: 'rgba(240,235,224,0.25)' }}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#c8f000] animate-pulse" />
-            Currently learning
+            Currently going deeper in
           </div>
           <div className="flex gap-3 flex-wrap">
             {learningItems.map((item) => (
@@ -311,7 +336,7 @@ export default async function HomePage() {
 
       {/* ══════════════════════════════════════ THE WORK ══════════════════════════════════════ */}
       <section
-        className="px-6 sm:px-12 py-16 border-t max-w-[1200px] mx-auto"
+        className="site-shell section-pad border-t"
         style={{ borderColor: 'rgba(240,235,224,0.07)' }}
       >
         <div className="grid gap-5 md:gap-20 md:grid-cols-[auto_1fr]">
@@ -345,7 +370,7 @@ export default async function HomePage() {
 
       {/* ══════════════════════════════════════ 02. EXPERIENCE ══════════════════════════════════════ */}
       <section
-        className="px-6 sm:px-12 py-16 border-t max-w-[1200px] mx-auto"
+        className="site-shell section-pad border-t"
         style={{ borderColor: 'rgba(240,235,224,0.07)' }}
       >
         <SectionHeader n="02" label="Experience" />
@@ -390,6 +415,14 @@ export default async function HomePage() {
               </li>
             ))}
           </ul>
+
+          <Link
+            href="/journey"
+            className="inline-flex items-center gap-2 mt-6 text-[13px] font-normal transition-colors duration-150"
+            style={{ color: 'rgba(200,240,0,0.65)' }}
+          >
+            Read the full story of the Oracle years →
+          </Link>
         </div>
 
         {/* Wabtec */}
@@ -425,7 +458,7 @@ export default async function HomePage() {
 
       {/* ══════════════════════════════════════ 03. PROJECTS ══════════════════════════════════════ */}
       <section
-        className="px-6 sm:px-12 py-16 border-t max-w-[1200px] mx-auto"
+        className="site-shell section-pad border-t"
         style={{ borderColor: 'rgba(240,235,224,0.07)' }}
       >
         <SectionHeader n="03" label="Projects" />
@@ -472,7 +505,7 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════ 04. WRITING ══════════════════════════════════════ */}
       {posts.length > 0 && (
         <section
-          className="px-6 sm:px-12 py-16 border-t max-w-[1200px] mx-auto"
+          className="site-shell section-pad border-t"
           style={{ borderColor: 'rgba(240,235,224,0.07)' }}
         >
           <SectionHeader n="04" label="Writing" />
@@ -530,7 +563,7 @@ export default async function HomePage() {
 
       {/* ══════════════════════════════════════ NEWSLETTER ══════════════════════════════════════ */}
       <section
-        className="px-6 sm:px-12 py-16 border-t max-w-[1200px] mx-auto"
+        className="site-shell section-pad border-t"
         style={{ borderColor: 'rgba(240,235,224,0.07)' }}
       >
         <div className="flex flex-wrap justify-between items-center gap-10">

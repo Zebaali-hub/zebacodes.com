@@ -32,22 +32,24 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
     <div>
       {/* Filters */}
       <div
-        className="flex gap-6 flex-wrap pb-5 mb-0 border-b"
+        className="mb-2 overflow-x-auto border-b pb-4"
         style={{ borderColor: 'rgba(240,235,224,0.07)' }}
       >
+        <div className="flex w-max min-w-full gap-2 rounded-lg border p-1.5" style={{ borderColor: 'rgba(240,235,224,0.08)', background: 'rgba(240,235,224,0.025)' }}>
         {FILTERS.map((f) => (
           <button
             key={f.key}
             onClick={() => setActive(f.key)}
-            className="text-[13px] font-normal pb-1 transition-colors duration-150 border-b-2"
+            className="whitespace-nowrap rounded-md px-3 py-2 text-[13px] font-normal transition-colors duration-150"
             style={{
-              color:       active === f.key ? '#f0ebe0' : 'rgba(240,235,224,0.3)',
-              borderColor: active === f.key ? '#c8f000' : 'transparent',
+              color: active === f.key ? '#0a0a0a' : 'rgba(240,235,224,0.48)',
+              background: active === f.key ? '#c8f000' : 'transparent',
             }}
           >
             {f.label}
           </button>
         ))}
+        </div>
       </div>
 
       {/* Posts */}

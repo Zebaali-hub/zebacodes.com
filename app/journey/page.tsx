@@ -181,7 +181,7 @@ export default function JourneyPage() {
         </p>
         <div className="flex flex-wrap gap-3">
           <a
-            href="mailto:zebaali1415@gmail.com"
+            href="mailto:zebaali1514@gmail.com"
             className="font-sans text-[13px] font-medium px-5 py-2.5 rounded-md transition-all duration-150"
             style={{ background: '#f5f1e8', color: '#0c0c0c' }}
           >

@@ -6,10 +6,9 @@ import { usePathname } from 'next/navigation'
 
 const links = [
   { label: 'home',       href: '/',          external: false },
-  { label: 'writing',    href: '/writing',   external: false },
   { label: 'projects',   href: '/projects',  external: false },
+  { label: 'writing',    href: '/writing',   external: false },
   { label: 'journey',    href: '/journey',   external: false },
-  { label: 'resources',  href: '/resources', external: false },
   { label: 'GitHub ↗',   href: 'https://github.com/zebacodes', external: true },
 ]
 
@@ -31,7 +30,7 @@ export default function Nav() {
         borderBottom:  '1px solid rgba(240,235,224,0.06)',
       }}
     >
-      <div className="flex items-center justify-between h-full px-6 sm:px-12">
+      <div className="site-shell flex items-center justify-between h-full gap-6">
         {/* Logo */}
         <Link
           href="/"
@@ -43,15 +42,18 @@ export default function Nav() {
         </Link>
 
         {/* Desktop links */}
-        <ul className="hidden md:flex gap-9 list-none">
+        <ul className="hidden md:flex items-center gap-2 list-none rounded-full border px-2 py-1" style={{ borderColor: 'rgba(240,235,224,0.08)', background: 'rgba(240,235,224,0.025)' }}>
           {links.map(({ label, href, external }) => (
             <li key={label}>
               <Link
                 href={href}
                 target={external ? '_blank' : undefined}
                 rel={external ? 'noopener noreferrer' : undefined}
-                className="text-[13px] font-normal transition-colors duration-150"
-                style={{ color: isActive(href) ? '#f0ebe0' : 'rgba(240,235,224,0.35)' }}
+                className="block rounded-full px-3.5 py-1.5 text-[13px] font-normal transition-colors duration-150"
+                style={{
+                  color: isActive(href) ? '#0a0a0a' : 'rgba(240,235,224,0.45)',
+                  background: isActive(href) ? '#f5f1e8' : 'transparent',
+                }}
               >
                 {label}
               </Link>
@@ -61,7 +63,7 @@ export default function Nav() {
 
         {/* Right side */}
         <div
-          className="hidden md:block font-mono text-[11px] tracking-wide"
+          className="hidden xl:block font-mono text-[11px] tracking-wide shrink-0"
           style={{ color: 'rgba(240,235,224,0.22)' }}
         >
           Noida · open to work

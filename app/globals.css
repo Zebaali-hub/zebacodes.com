@@ -1,7 +1,9 @@
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+}
 
 :root {
   --bg:          #0a0a0a;
@@ -24,6 +26,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
   overflow-x: hidden;
+}
+
+@layer components {
+  .site-shell {
+    width: min(calc(100% - clamp(2rem, 6vw, 7rem)), 1120px);
+    margin-inline: auto;
+  }
+
+  .section-pad {
+    padding-block: clamp(3.5rem, 7vw, 5.5rem);
+  }
+
+  .soft-panel {
+    border: 1px solid rgba(240,235,224,0.08);
+    background: linear-gradient(180deg, rgba(240,235,224,0.035), rgba(240,235,224,0.014));
+  }
 }
 
 /* Grain texture — makes dark sites feel expensive */
