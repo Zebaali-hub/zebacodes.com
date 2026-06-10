@@ -1,0 +1,97 @@
+---
+title: "MVCC: How Oracle and PostgreSQL Both Implement It — And Where They Diverge"
+date: "2026-05-09"
+category: "db"
+tags: ["mvcc", "oracle", "postgresql", "database-internals", "concurrency"]
+excerpt: "Multi-Version Concurrency Control is in every serious database. But Oracle and PostgreSQL implement it in fundamentally different ways. Here's what I learned working on both."
+readTime: "12 min read"
+---
+
+MVCC — Multi-Version Concurrency Control — is the reason you can run a long `SELECT` on a production database without blocking every `UPDATE` that happens while your query runs.
+
+Every serious relational database implements it. But "implements MVCC" papers over significant architectural differences. Oracle and PostgreSQL both use MVCC. They do it very differently. Having spent four years working inside Oracle RDBMS engineering and building systems on top of PostgreSQL, I want to document what I actually understand about these differences.
+
+This is not a tutorial. This is me explaining what I know.
+
+## The Core Problem MVCC Solves
+
+Without versioning, a database has two bad options:
+
+1. **Lock everything a reader touches.** Writers block. Reads block writes. Throughput collapses under any real concurrency.
+2. **Let readers see partial writes.** Data corruption. Unacceptable.
+
+MVCC gives readers a consistent snapshot of the database at a point in time, without holding locks that block writers. Readers see old versions of rows while writers create new ones. The old versions stick around long enough to satisfy any in-flight read.
+
+The question is: where do you store those old versions, and for how long?
+
+## Oracle: Undo Segments
+
+Oracle stores old row versions in **undo segments** — a separate area of the database outside the data files themselves.
+
+When a transaction modifies a row, Oracle writes the *before image* of that row to an undo segment. The data block gets the new version. If a reader arrives mid-transaction and needs the old version (because the transaction hasn't committed yet, or because the reader's snapshot predates the write), Oracle reconstructs the old row from the undo.
+
+This is called **consistent read reconstruction**. Oracle follows the undo chain — potentially through multiple intermediate versions — to reassemble the row as it existed at the reader's snapshot SCN (System Change Number).
+
+**Key consequences:**
+
+- The data files always contain the *current* version of data
+- Old versions live in undo, not in the data files
+- Undo is shared, finite, and configurable (`UNDO_RETENTION`)
+- If undo is overwritten before a long-running query finishes, Oracle throws `ORA-01555: snapshot too old`
+
+`ORA-01555` is one of the more instructive errors in Oracle. It means a reader's snapshot has become irrecoverable — the undo it needed to reconstruct an old row version is gone.
+
+In my four years at Oracle, I saw `ORA-01555` surface in long-running batch jobs, poorly configured undo tablespace sizing, and large-scale concurrent workloads where undo was being consumed faster than configured retention could protect. Diagnosing it required understanding undo architecture — not just "increase UNDO_RETENTION."
+
+## PostgreSQL: Dead Tuples In-Place
+
+PostgreSQL takes a completely different approach.
+
+When a transaction updates a row in PostgreSQL, the old version of the row is *left in the heap* — the actual data file — marked with the transaction ID range during which it was visible. The new version is written as a new tuple in the same heap, with its own visibility range.
+
+Old versions are called **dead tuples**. They stay in the heap until `VACUUM` comes along and reclaims their space.
+
+**Key consequences:**
+
+- Old and new versions coexist in the same data files
+- There is no separate undo store
+- Readers find old versions by checking tuple visibility metadata against their snapshot transaction ID
+- Dead tuples accumulate and bloat tables if VACUUM doesn't run often enough
+- `VACUUM` must also advance the oldest transaction ID to prevent **transaction ID wraparound** — one of PostgreSQL's more operationally significant constraints
+
+## The Structural Divergence
+
+These aren't just implementation details. They represent fundamentally different tradeoffs:
+
+| Concern | Oracle | PostgreSQL |
+|---|---|---|
+| Old version storage | Undo segments (separate) | Heap (same data files) |
+| Old version lifetime | Configurable undo retention | Until VACUUM reclaims |
+| Long-query risk | ORA-01555 if undo overwritten | Table bloat if VACUUM lags |
+| Write overhead | Write to data block + undo | Write new tuple to heap |
+| Consistency enforcement | SCN-based snapshot | Transaction ID-based snapshot |
+| Operational concern | Undo tablespace sizing | VACUUM tuning + autovacuum |
+
+Neither is "better." They're different bets about where to absorb complexity.
+
+Oracle's model centralises old versions in a dedicated structure. The operational burden is sizing undo correctly and understanding `ORA-01555`. The reward is that data files don't bloat with dead tuples and `EXPLAIN` plans don't change because of accumulated garbage.
+
+PostgreSQL's model is simpler structurally but pushes the complexity of old version management into `VACUUM` — which is asynchronous, tunable, and possible to get wrong.
+
+## What Running at 5B Row Scale Taught Me
+
+When I was stress-testing Oracle RDBMS with 100 concurrent PDBs and 5 billion rows, MVCC wasn't an abstract concept. It was something I had to engineer around.
+
+Under heavy concurrent write loads, undo pressure was measurable. Long-running read workloads competing with write-heavy workloads created `ORA-01555` conditions I had to deliberately reproduce, characterise, and in some cases report as bugs.
+
+Deadlock patterns (`ORA-00060`) surfaced under specific transaction interleaving patterns that required understanding lock escalation and how Oracle's row-level locking interacts with MVCC snapshots.
+
+The key insight: **concurrency correctness at scale is not about the happy path.** It's about what happens when undo is under pressure, when long-running transactions hold old snapshots, when transaction ID ranges overlap in non-obvious ways.
+
+Understanding MVCC at this level — not as a feature checkbox but as an architectural constraint — is what separates database engineering from database usage.
+
+## What I'm Exploring Next
+
+I'm currently building on PostgreSQL with pgvector, which adds another dimension: how MVCC interacts with approximate nearest-neighbor indexes (HNSW). Dead tuples in a vector index are handled differently than in a standard heap — index entries aren't immediately reclaimed by VACUUM, which affects recall@k under high write loads.
+
+That's the next post.

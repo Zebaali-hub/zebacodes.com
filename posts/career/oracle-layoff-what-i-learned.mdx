@@ -1,0 +1,70 @@
+---
+title: "Oracle Let Me Go. Here's What 4 Years in RDBMS Engineering Taught Me."
+date: "2026-05-09"
+category: "career"
+tags: ["oracle", "layoff", "career", "backend-engineering"]
+excerpt: "I spent nearly four years working on Oracle RDBMS 23ai and 19c — on the engine itself. In April 2026, I was laid off. This is what I actually learned."
+readTime: "9 min read"
+---
+
+In April 2026, Oracle laid off a significant portion of its India engineering workforce. I was one of them.
+
+I was a Member of Technical Staff (IC2) in Oracle's Server Technologies Group — the team that works on Oracle RDBMS itself, not applications built on top of it. The engine. I had been nominated for SMTS (IC3) promotion by my manager. That nomination didn't protect me.
+
+I'm not going to pretend this wasn't hard. It was. But I'm also not going to pretend I have nothing to show for four years of that work. So this is what I actually learned — the technical kind, and the other kind.
+
+## What I Actually Built
+
+The work wasn't just running queries. It was building the infrastructure that *tests* the database at a scale most engineers never interact with.
+
+I architected concurrent execution frameworks that simulated enterprise workloads at up to **5 billion rows** — across Oracle RAC, Exadata, and Exascale. Managing 100 simultaneous pluggable databases under parallel thread loads. Surfacing deadlock patterns, MVCC edge cases, ORA-600 and ORA-7445 kernel failures — the kind of failures that, if they reach production, take down banks and hospitals.
+
+I built Oracle's first parameterized vector search benchmarking engine — 500+ configurable HNSW and IVF workloads, measuring p50/p95/p99 latency, recall@k, and throughput at 5B row scale. It got adopted as the standard workload library across multiple RDBMS engineering teams.
+
+I resolved Fortune 500 production escalations — global financial institutions, major tech companies. Reproduced kernel failures. Coordinated across timezones with US development teams to ship fixes inside SLA. I pre-empted several of these by finding the defect independently before the customer did.
+
+I filed 150 bugs. Managed 50 through their lifecycle. 13 shipped to production releases — 19RU, 23RU, 23ai.
+
+I owned four RDBMS features end-to-end.
+
+## What Database Engineering at This Level Teaches You
+
+You stop thinking about databases as black boxes.
+
+When you're writing Java thread executors that hammer Oracle with 100 concurrent connections across pluggable databases, you stop caring about "which ORM is fastest." You start caring about **why** MVCC works the way it does. You start reading about undo segments. You look at EXPLAIN plans not to optimize a slow query but to verify that the kernel is behaving correctly under concurrent load.
+
+You learn what `ORA-00060` (deadlock) actually means at the engine level, not just "add retry logic."
+
+You learn that connection pooling is not a simple thing. That the difference between `SERIALIZABLE` and `READ COMMITTED` isolation is not academic — it shows up as data corruption under specific race conditions that take weeks to reliably reproduce.
+
+You learn that distributed systems problems at Oracle RAC scale are qualitatively different from distributed systems problems in a three-node Kafka cluster tutorial.
+
+## The Part Nobody Talks About
+
+There's a thing that happens when you work on infrastructure that most people never see.
+
+The work is invisible by design. The point of a database engine working correctly is that nobody notices. You spend months reproducing a bug that crashed one customer's production system at 3 AM. You find it. You coordinate the fix. It ships. Nobody outside the team knows it happened.
+
+That invisibility is fine when you're inside the organisation. It's harder when you're suddenly on the outside and trying to explain what you did.
+
+This is one reason I'm building this site and writing publicly. I want to make the work visible — to document what I know, how I think, and what I'm building next.
+
+## What Comes Next
+
+The layoff cleared my calendar completely. I'm using the time deliberately.
+
+I'm going deep on the things I want to own, not just use:
+- **Distributed systems** — consensus protocols, replication, partition tolerance at the implementation level
+- **Java internals** — JVM, GC, concurrency primitives, what `synchronized` actually costs
+- **LLD and HLD** — designing systems I can defend completely, not just draw boxes for
+- **Spring Boot** — building real backend services, not just knowing the annotations
+
+I'm writing about all of it here. Not tutorials copied from docs. Real notes from real learning.
+
+And I'm building publicly. Both GitHub projects live. More coming.
+
+---
+
+If you're another engineer who got caught in the Oracle layoffs, or any layoff: you're not starting from zero. You're starting from experience. There's a difference.
+
+I'm still here. Still building.

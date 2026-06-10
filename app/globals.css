@@ -1,26 +1,71 @@
 @import "tailwindcss";
+@config "../tailwind.config.ts";
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg:          #0a0a0a;
+  --surface:     #111111;
+  --border:      rgba(240, 235, 224, 0.07);
+  --text:        #f0ebe0;
+  --text-muted:  rgba(240, 235, 224, 0.5);
+  --text-dim:    rgba(240, 235, 224, 0.25);
+  --accent:      #c8f000;
+  --accent-dim:  rgba(200, 240, 0, 0.12);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Geist', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  overflow-x: hidden;
 }
+
+/* Grain texture — makes dark sites feel expensive */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 999; pointer-events: none;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Blog post prose ── */
+.post-prose { font-size: 15px; font-weight: 300; line-height: 1.85; color: rgba(240,235,224,0.52); }
+.post-prose h2 { font-family: var(--font-display), Georgia, serif; font-size: 22px; font-weight: 700; color: #f5f1e8; margin: 2.5rem 0 0.75rem; letter-spacing: -0.3px; }
+.post-prose h3 { font-family: var(--font-display), Georgia, serif; font-size: 18px; font-weight: 700; color: #f5f1e8; margin: 2rem 0 0.5rem; }
+.post-prose strong { color: rgba(240,235,224,0.85); font-weight: 500; }
+.post-prose em { font-style: italic; }
+.post-prose p { margin-bottom: 1.3rem; }
+.post-prose a { color: #c8f000; border-bottom: 1px solid rgba(200,240,0,0.3); text-decoration: none; }
+.post-prose a:hover { color: #dcff33; }
+.post-prose blockquote { border-left: 2px solid #c8f000; padding-left: 1.25rem; color: rgba(240,235,224,0.35); font-style: italic; margin: 2rem 0; }
+.post-prose hr { border: none; border-top: 1px solid rgba(240,235,224,0.07); margin: 2rem 0; }
+.post-prose table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 13px; }
+.post-prose th { font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(240,235,224,0.3); border-bottom: 1px solid rgba(240,235,224,0.08); padding: 8px 12px; text-align: left; }
+.post-prose td { color: rgba(240,235,224,0.5); border-bottom: 1px solid rgba(240,235,224,0.05); padding: 10px 12px; }
+.post-prose code:not(pre code) { font-family: 'Geist Mono', monospace; font-size: 13px; background: rgba(240,235,224,0.06); border: 1px solid rgba(240,235,224,0.08); border-radius: 3px; padding: 0.15em 0.4em; color: #c8f000; }
+.post-prose ul { list-style: none; padding: 0; }
+.post-prose ul li { padding-left: 18px; position: relative; margin-bottom: 8px; }
+.post-prose ul li::before { content: '—'; position: absolute; left: 0; color: #c8f000; opacity: 0.6; font-size: 11px; }
+.post-prose ol { padding-left: 1.5rem; }
+.post-prose ol li { margin-bottom: 0.5rem; }
+
+/* ── rehype-pretty-code ── */
+[data-rehype-pretty-code-figure] { position: relative; margin: 1.5rem 0; }
+[data-rehype-pretty-code-figure] pre { border-radius: 6px; overflow-x: auto; border: 1px solid rgba(240,235,224,0.07); padding: 1.25rem; }
+[data-rehype-pretty-code-figure] code { font-family: 'Geist Mono', monospace; font-size: 13px; line-height: 1.7; }
+[data-rehype-pretty-code-title] { background: var(--surface); border: 1px solid rgba(240,235,224,0.07); border-bottom: none; border-radius: 6px 6px 0 0; padding: 0.4rem 1rem; font-family: 'Geist Mono', monospace; font-size: 11px; color: rgba(240,235,224,0.28); }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(240,235,224,0.1); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #c8f000; }
+
+/* ── Selection ── */
+::selection { background: rgba(200,240,0,0.2); color: #f5f1e8; }

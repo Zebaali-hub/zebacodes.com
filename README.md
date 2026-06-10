@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# zebacodes.com — Zeba Ali's Portfolio
 
-## Getting Started
+Personal portfolio for Zeba Ali — Backend Engineer specializing in high-scale databases, distributed systems, and AI infrastructure. Built with Next.js 15, TypeScript, Tailwind CSS v4, and Framer Motion.
 
-First, run the development server:
+## Stack
+
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4 + Framer Motion
+- **Database**: Supabase (contact form submissions)
+- **Email**: Resend (contact form notifications)
+- **Deployment**: Vercel (Mumbai region)
+
+## Pages
+
+| Route | Description |
+|-------|-------------|
+| `/` | Hero, tech strip, stats, project previews, blog preview |
+| `/about` | Career timeline, skill cards, open-to-work section |
+| `/projects` | Log Intelligence Tool, DB Stress Framework, Vector Search Benchmark |
+| `/blog` | Three technical articles on database internals and AI infra |
+| `/contact` | Contact form (Supabase + Resend) |
+
+## Local Development
 
 ```bash
+# 1. Clone
+git clone https://github.com/zebacodes/zebacodes.com
+cd zebacodes.com
+
+# 2. Install dependencies
+npm install
+
+# 3. Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your Supabase and Resend credentials
+
+# 4. Start dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copy `.env.example` to `.env.local` and fill in:
 
-## Learn More
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon/public key |
+| `RESEND_API_KEY` | Resend API key for email |
 
-To learn more about Next.js, take a look at the following resources:
+## Supabase Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Run this SQL in your Supabase project to create the contact submissions table:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```sql
+create table contact_submissions (
+  id bigint generated always as identity primary key,
+  name text not null,
+  email text not null,
+  subject text not null,
+  message text not null,
+  created_at timestamptz default now()
+);
 
-## Deploy on Vercel
+-- Enable RLS
+alter table contact_submissions enable row level security;
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-- Allow inserts from anon (form submissions)
+create policy "Allow anon inserts"
+  on contact_submissions for insert
+  to anon
+  with check (true);
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy to Vercel
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel --prod
+```
+
+Add environment variables in the Vercel dashboard under **Settings → Environment Variables**.
+
+## Project Structure
+
+```
+├── app/
+│   ├── page.tsx              # Home / Hero
+│   ├── layout.tsx            # Root layout
+│   ├── globals.css           # Global styles + Tailwind theme
+│   ├── about/page.tsx        # About + timeline
+│   ├── projects/page.tsx     # Projects showcase
+│   ├── blog/page.tsx         # Blog articles
+│   ├── contact/page.tsx      # Contact form
+│   └── api/contact/route.ts  # Contact API handler
+├── components/
+│   ├── Navbar.tsx            # Sticky nav with mobile menu
+│   └── Footer.tsx            # Site footer
+├── lib/
+│   ├── supabase.ts           # Supabase client
+│   └── resend.ts             # Resend email helper
+├── tailwind.config.ts        # Tailwind configuration
+├── vercel.json               # Vercel deployment config
+└── .env.example              # Environment variable template
+```
+
+## Design System
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| Background | `#0A0F1E` | Page background |
+| Accent | `#2E75B6` | Primary blue |
+| Highlight | `#00D4FF` | Cyan highlight |
+| Glass | `rgba(255,255,255,0.04)` + blur(20px) | Cards and surfaces |
