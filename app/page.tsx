@@ -128,7 +128,7 @@ export default async function HomePage() {
                   className="font-mono text-[10px] tracking-[0.14em] uppercase sm:px-4"
                   style={{ color: 'rgba(240,235,224,0.2)' }}
                 >
-                  Java · Spring Boot · Oracle RDBMS · AI Infrastructure
+                  Backend Systems · Java / Spring Boot · Distributed Systems · DB Internals
                 </div>
                 <div className="flex-1 h-px" style={{ background: 'rgba(240,235,224,0.07)' }} />
               </div>
@@ -252,7 +252,7 @@ export default async function HomePage() {
                   </div>
                   <div className="text-[15px] font-semibold" style={{ color: '#f0ebe0' }}>4 years</div>
                   <div className="text-[11px] mt-0.5" style={{ color: 'rgba(240,235,224,0.4)' }}>
-                    kernel engineering
+                    DB internals
                   </div>
                 </div>
 
