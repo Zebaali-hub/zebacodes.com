@@ -110,13 +110,13 @@ export default function ContactPage() {
             </ul>
 
             <div className="border-t pt-6 space-y-4" style={{ borderColor: 'rgba(240,235,224,0.08)' }}>
-              <a href="mailto:zebaali1514@gmail.com" className="block text-[14px] transition-colors hover:text-[#c8f000]" style={{ color: 'rgba(240,235,224,0.72)' }}>
-                zebaali1514@gmail.com
+              <a href="mailto:zebaali1415@gmail.com" className="block text-[14px] transition-colors hover:text-[#c8f000]" style={{ color: 'rgba(240,235,224,0.72)' }}>
+                zebaali1415@gmail.com
               </a>
               <a href="https://github.com/zebacodes" target="_blank" rel="noopener noreferrer" className="block text-[14px] transition-colors hover:text-[#c8f000]" style={{ color: 'rgba(240,235,224,0.72)' }}>
                 github.com/zebacodes ↗
               </a>
-              <a href="https://linkedin.com/in/zeba-ali" target="_blank" rel="noopener noreferrer" className="block text-[14px] transition-colors hover:text-[#c8f000]" style={{ color: 'rgba(240,235,224,0.72)' }}>
+              <a href="https://linkedin.com/in/zeba-a-7173251a0" target="_blank" rel="noopener noreferrer" className="block text-[14px] transition-colors hover:text-[#c8f000]" style={{ color: 'rgba(240,235,224,0.72)' }}>
                 LinkedIn ↗
               </a>
             </div>

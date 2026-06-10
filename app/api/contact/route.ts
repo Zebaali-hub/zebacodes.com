@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
       const resend = new Resend(resendKey)
       await resend.emails.send({
         from: 'Portfolio Contact <onboarding@resend.dev>',
-        to: 'zebaali1514@gmail.com',
+        to: 'zebaali1415@gmail.com',
         replyTo: cleanEmail,
         subject: `[Portfolio] ${cleanSubject} — from ${cleanName}`,
         html: `

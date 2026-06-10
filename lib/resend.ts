@@ -15,7 +15,7 @@ export async function sendContactEmail({
 }) {
   return resend.emails.send({
     from: 'Portfolio Contact <onboarding@resend.dev>',
-    to: 'zebaali1514@gmail.com',
+    to: 'zebaali1415@gmail.com',
     replyTo: email,
     subject: `[Portfolio] ${subject} — from ${name}`,
     html: `

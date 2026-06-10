@@ -176,12 +176,13 @@ export default async function HomePage() {
                   View projects →
                 </Link>
                 <a
-                  href="/Zeba_Ali_Resume_Final.docx"
-                  download
+                  href="/Zeba_Ali_Resume_Final.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="font-sans text-[13px] font-medium px-4 py-2.5 rounded-md transition-all duration-150"
                   style={{ border: '1px solid rgba(200,240,0,0.3)', color: '#c8f000' }}
                 >
-                  Resume ↓
+                  Resume ↗
                 </a>
                 <Link
                   href="/writing"
@@ -191,7 +192,7 @@ export default async function HomePage() {
                   Read my writing
                 </Link>
                 <a
-                  href="mailto:zebaali1514@gmail.com"
+                  href="mailto:zebaali1415@gmail.com"
                   className="font-sans text-[13px] font-normal px-4 py-2.5 rounded-md transition-all duration-150"
                   style={{ border: '1px solid rgba(240,235,224,0.16)', color: 'rgba(240,235,224,0.62)' }}
                 >
