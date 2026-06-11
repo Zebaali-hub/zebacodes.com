@@ -92,7 +92,7 @@ export default function JourneyPage() {
                       style={{ border: '1px solid rgba(232,228,220,0.1)' }}
                     >
                       <Image
-                        src="/zeba.jpg"
+                        src="/zeba-corporate.jpeg"
                         alt="Zeba Ali"
                         width={40}
                         height={40}

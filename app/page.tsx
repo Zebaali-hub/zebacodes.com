@@ -221,7 +221,7 @@ export default async function HomePage() {
                     style={{ height: '3px', background: '#c8f000' }}
                   />
                   <Image
-                    src="/zeba.jpg"
+                    src="/zeba-corporate.jpeg"
                     alt="Zeba Ali"
                     fill
                     className="object-cover object-top"
