@@ -162,8 +162,8 @@ export default async function HomePage() {
                 <strong className="font-medium" style={{ color: '#f0ebe0' }}>
                   distributed systems, Java internals, and system design
                 </strong>{' '}
-                — and writing about all of it. Including what it&apos;s like to be a{' '}
-                <span style={{ color: '#c8f000' }}>woman doing this work.</span>
+                — and turning that learning into{' '}
+                <span style={{ color: '#c8f000' }}>projects, writing, and public engineering notes.</span>
               </p>
 
               {/* CTAs */}
@@ -579,7 +579,7 @@ export default async function HomePage() {
               className="font-mono text-[11px] uppercase tracking-[0.1em]"
               style={{ color: 'rgba(240,235,224,0.28)' }}
             >
-              Backend engineering · Building in public · Women in tech
+              Backend engineering · Distributed systems · DB internals
             </p>
           </div>
           <NewsletterForm />
