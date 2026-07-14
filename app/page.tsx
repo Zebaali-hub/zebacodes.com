@@ -176,7 +176,7 @@ export default async function HomePage() {
                   View projects →
                 </Link>
                 <a
-                  href="/Zeba_Ali_Resume_Final.pdf"
+                  href="/Zeba_Ali_resume_.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-sans text-[13px] font-medium px-4 py-2.5 rounded-md transition-all duration-150"
