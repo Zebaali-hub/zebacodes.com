@@ -13,15 +13,21 @@ const oracleBullets = [
 
 const projects = [
   {
+    name: 'OrderFlow',
+    stack: 'Java 17 · Spring Boot 3.2 · Apache Kafka · PostgreSQL · Redis · Kubernetes · Docker',
+    link: 'github.com/Zebaali-hub/orderflow',
+    desc: 'Event-driven food delivery platform across 6 Spring Boot microservices — Saga-based order orchestration over Kafka with choreographed compensation, transactional outbox pattern, idempotent consumers with retry and DLQ, Redis GEO for real-time driver matching, WebSocket live order tracking. Full observability stack with Prometheus, Grafana, and OpenTelemetry. Deployed on Kubernetes with health probes and horizontal autoscaling.',
+  },
+  {
     name: 'Database Stress Testing Framework',
     stack: 'Java 17 · Spring Boot 3.2 · JDBC · PostgreSQL · ExecutorService · Docker',
-    link: 'github.com/zebacodes/db-stress-framework',
+    link: 'github.com/Zebaali-hub/db-stress-framework',
     desc: 'Configurable Spring Boot REST service for stress-testing any JDBC-compatible database — concurrent thread executor, real-time TPS and p50/p95/p99 latency metrics via WebSocket dashboard, transaction pattern simulation, PDF/JSON report generation. Productized from 4 years of Oracle concurrent execution engineering at 5B row scale on Exadata and RAC.',
   },
   {
     name: 'Vector Search Benchmarking Platform',
     stack: 'Java 17 · Spring Boot 3.2 · pgvector · PostgreSQL · Docker',
-    link: 'github.com/zebacodes/vector-search-benchmark',
+    link: 'github.com/Zebaali-hub/vector-search-benchmark',
     desc: 'Spring Boot REST service benchmarking HNSW vs IVF vs Flat vector search on pgvector — measuring recall@k, p50/p95/p99 latency, index build time, and memory across dataset scales. Tunable HNSW and IVF parameters. Built on real Oracle HNSW/IVF production knowledge at 5B rows.',
   },
 ]
