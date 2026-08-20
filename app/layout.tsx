@@ -19,19 +19,24 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://zebacodes.com'),
   title: {
     default: 'Zeba Ali — Backend Engineer',
     template: '%s — Zeba Ali',
   },
-  description:
-    'Backend engineer. 4 years in Oracle RDBMS engineering (23ai & 19c). Building in public — distributed systems, Java internals, Spring Boot.',
+  description: 'Zeba Ali is a backend engineer building Java, Spring Boot, distributed systems, and database-heavy software.',
   authors: [{ name: 'Zeba Ali' }],
   openGraph: {
     type: 'website',
     locale: 'en_IN',
     url: 'https://zebacodes.com',
     siteName: 'Zeba Ali',
+    title: 'Zeba Ali — Backend Engineer',
+    description: 'Java · Spring Boot · Distributed Systems · Databases',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Zeba Ali — Backend Engineer' }],
   },
+  twitter: { card: 'summary_large_image', title: 'Zeba Ali — Backend Engineer', description: 'Java · Spring Boot · Distributed Systems · Databases', images: ['/opengraph-image'] },
+  alternates: { canonical: '/' },
   robots: { index: true, follow: true },
 }
 
@@ -40,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={playfair.variable}>
       <body className="min-h-screen flex flex-col">
         <Nav />
-        <main className="flex-1 pt-[58px]">{children}</main>
+        <main className="flex-1 pt-[58px]" id="main-content">{children}</main>
         <Footer />
       </body>
     </html>

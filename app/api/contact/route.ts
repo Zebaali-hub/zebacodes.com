@@ -55,6 +55,14 @@ export async function POST(request: NextRequest) {
   // Save to Supabase
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const resendKey = process.env.RESEND_API_KEY
+
+  if ((!supabaseUrl || !supabaseKey) && !resendKey) {
+    return NextResponse.json({ error: 'Contact service is not configured' }, { status: 503 })
+  }
+
+  let stored = false
+  let delivered = false
 
   if (supabaseUrl && supabaseKey) {
     try {
@@ -67,6 +75,8 @@ export async function POST(request: NextRequest) {
       })
       if (dbError) {
         console.error('[contact] Supabase insert error:', dbError.message)
+      } else {
+        stored = true
       }
     } catch (err) {
       console.error('[contact] Supabase error:', err)
@@ -74,11 +84,10 @@ export async function POST(request: NextRequest) {
   }
 
   // Send email via Resend
-  const resendKey = process.env.RESEND_API_KEY
   if (resendKey) {
     try {
       const resend = new Resend(resendKey)
-      await resend.emails.send({
+      const { error } = await resend.emails.send({
         from: 'Portfolio Contact <onboarding@resend.dev>',
         to: 'zebaali1415@gmail.com',
         replyTo: cleanEmail,
@@ -110,10 +119,13 @@ export async function POST(request: NextRequest) {
           </div>
         `,
       })
+      if (error) console.error('[contact] Resend error:', error.message)
+      else delivered = true
     } catch (err) {
       console.error('[contact] Resend error:', err)
     }
   }
 
-  return NextResponse.json({ success: true })
+  if (!stored && !delivered) return NextResponse.json({ error: 'Message could not be delivered' }, { status: 502 })
+  return NextResponse.json({ success: true, stored, delivered })
 }

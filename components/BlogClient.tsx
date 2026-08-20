@@ -25,11 +25,21 @@ function fmt(date: string) {
 
 export default function BlogClient({ posts }: { posts: PostMeta[] }) {
   const [active, setActive] = useState('all')
+  const [query, setQuery] = useState('')
 
-  const filtered = active === 'all' ? posts : posts.filter((p) => p.category === active)
+  const filtered = posts.filter((post) => {
+    const categoryMatch = active === 'all' || post.category === active
+    const search = query.trim().toLowerCase()
+    const textMatch = !search || `${post.title} ${post.excerpt} ${post.tags.join(' ')}`.toLowerCase().includes(search)
+    return categoryMatch && textMatch
+  })
 
   return (
     <div>
+      <label className="writing-search">
+        <span>Search writing</span>
+        <input value={query} onChange={(event) => setQuery(event.target.value)} type="search" placeholder="Java, MVCC, systems..." />
+      </label>
       {/* Filters */}
       <div
         className="mb-2 overflow-x-auto border-b pb-4"

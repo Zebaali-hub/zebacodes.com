@@ -30,6 +30,9 @@ export async function POST(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
+  if (!url || !key) return NextResponse.json({ error: 'Newsletter service is not configured' }, { status: 503 })
+
+  let already = false
   if (url && key) {
     try {
       const supabase = createClient(url, key)
@@ -39,10 +42,11 @@ export async function POST(request: NextRequest) {
 
       if (error) {
         if (error.code === '23505') {
-          return NextResponse.json({ success: true, already: true })
+          already = true
+        } else {
+          console.error('[newsletter] db error:', error.message)
+          return NextResponse.json({ error: 'Failed to save' }, { status: 500 })
         }
-        console.error('[newsletter] db error:', error.message)
-        return NextResponse.json({ error: 'Failed to save' }, { status: 500 })
       }
     } catch (err) {
       console.error('[newsletter] supabase:', err)
@@ -51,19 +55,20 @@ export async function POST(request: NextRequest) {
 
   // Resend welcome email
   const resendKey = process.env.RESEND_API_KEY
-  if (resendKey) {
+  if (resendKey && !already) {
     try {
       const resend = new Resend(resendKey)
-      await resend.emails.send({
+      const { error } = await resend.emails.send({
         from: 'Zeba Ali <onboarding@resend.dev>',
         to: clean,
         subject: "You're in — zebacodes.com",
         text: "Thanks for subscribing. I write about backend engineering, distributed systems, and building in public after Oracle. Real notes, no noise. — Zeba",
       })
+      if (error) console.error('[newsletter] Resend error:', error.message)
     } catch (err) {
       console.error('[newsletter] resend:', err)
     }
   }
 
-  return NextResponse.json({ success: true })
+  return NextResponse.json({ success: true, already })
 }
