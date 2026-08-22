@@ -6,7 +6,7 @@ const identity = [
   { label: 'Systems', value: 'Distributed architecture', icon: Network },
   { label: 'Data', value: 'PostgreSQL + Oracle + Redis', icon: Database },
   { label: 'Events', value: 'Kafka', icon: Radio },
-  { label: 'Reliability', value: 'Observe + handle failure', icon: Activity },
+  { label: 'Reliability', value: 'Observe · Recover · Improve', icon: Activity },
 ]
 
 const principles = [
