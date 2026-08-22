@@ -86,6 +86,10 @@ export const projects: Project[] = [
   },
 ]
 
+export function getProject(id: string) {
+  return projects.find((project) => project.id === id)
+}
+
 export const technologies = [
   { group: 'Backend', items: ['Java', 'Spring Boot', 'REST APIs'] },
   { group: 'Data', items: ['PostgreSQL', 'Oracle Database', 'Redis'] },

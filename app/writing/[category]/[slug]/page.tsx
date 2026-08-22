@@ -11,6 +11,7 @@ import ReadingProgress from '@/components/ReadingProgress'
 import CopyCodeBlock from '@/components/CopyCodeBlock'
 import { DesktopToC, MobileToC } from '@/components/TableOfContents'
 import { NewsletterForm } from '@/components/NewsletterForm'
+import { PageEnvironment } from '@/components/ui/PageEnvironment'
 
 type Props = { params: Promise<{ category: string; slug: string }> }
 
@@ -53,10 +54,11 @@ export default async function PostPage({ params }: Props) {
   const liShare  = `https://linkedin.com/sharing/share-offsite/?url=https://zebacodes.com/writing/${category}/${slug}`
 
   return (
-    <>
+    <div className="article-experience">
       <ReadingProgress />
+      <PageEnvironment tone="journal" />
 
-      <div className="px-6 sm:px-12 py-14 max-w-[1200px] mx-auto">
+      <div className="article-shell">
 
         {/* Back */}
         <Link
@@ -68,17 +70,14 @@ export default async function PostPage({ params }: Props) {
         </Link>
 
         {/* Header */}
-        <div className="max-w-[720px] mb-8">
+        <div className="article-header">
           <div className="font-mono text-[10px] uppercase tracking-[0.1em] mb-4" style={{ color: '#6495ff', opacity: 0.65 }}>
             {cfg.label}
           </div>
-          <h1
-            className="font-display text-[32px] sm:text-[38px] font-bold tracking-tight leading-tight mb-5"
-            style={{ color: '#f5f1e8' }}
-          >
+          <h1>
             {post.title}
           </h1>
-          <div className="flex items-center gap-4 flex-wrap">
+          <p className="article-deck">{post.excerpt}</p><div className="article-meta">
             <span className="font-mono text-[11px]" style={{ color: 'rgba(232,228,220,0.3)' }}>
               {fmt(post.date)}
             </span>
@@ -95,9 +94,9 @@ export default async function PostPage({ params }: Props) {
         <MobileToC headings={headings} />
 
         {/* Two-column layout */}
-        <div className="flex gap-16 items-start">
+        <div className="article-layout">
           {/* Article */}
-          <article className="flex-1 min-w-0 post-prose">
+          <article className="article-body post-prose">
             <MDXRemote
               source={post.content}
               components={mdxComponents}
@@ -120,7 +119,7 @@ export default async function PostPage({ params }: Props) {
         </div>
 
         {/* Post footer */}
-        <div className="mt-16 pt-10 border-t max-w-[720px]" style={{ borderColor: 'rgba(232,228,220,0.07)' }}>
+        <div className="article-footer">
           {/* Share */}
           <div className="mb-10">
             <a
@@ -176,6 +175,6 @@ export default async function PostPage({ params }: Props) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

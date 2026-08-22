@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { getAllPosts } from '@/lib/posts'
 import { roadmaps } from '@/data/roadmaps'
+import { projects } from '@/data/portfolio'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts()
@@ -12,11 +13,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }))
   const roadmapUrls: MetadataRoute.Sitemap = roadmaps.map((roadmap) => ({ url: `https://zebacodes.com/roadmaps/${roadmap.slug}`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 }))
+  const projectUrls: MetadataRoute.Sitemap = projects.map((project) => ({ url: `https://zebacodes.com/projects/${project.id}`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 }))
 
   return [
     { url: 'https://zebacodes.com',            lastModified: new Date(), changeFrequency: 'weekly',  priority: 1   },
     { url: 'https://zebacodes.com/writing',    lastModified: new Date(), changeFrequency: 'daily',   priority: 0.9 },
     { url: 'https://zebacodes.com/projects',   lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    ...projectUrls,
     { url: 'https://zebacodes.com/contact',    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: 'https://zebacodes.com/roadmaps',   lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     ...roadmapUrls,

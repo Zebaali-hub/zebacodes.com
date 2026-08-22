@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { Code2, Menu, X } from 'lucide-react'
 
 const links = [
-  { label: 'Home', href: '/' }, { label: 'Projects', href: '/#systems' }, { label: 'Writing', href: '/writing' },
+  { label: 'Home', href: '/' }, { label: 'Projects', href: '/projects' }, { label: 'Writing', href: '/writing' },
   { label: 'Roadmaps', href: '/roadmaps' }, { label: 'Journey', href: '/journey' },
 ]
 

@@ -34,35 +34,32 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
     return categoryMatch && textMatch
   })
 
+  const featured = filtered[0]
+  const remaining = filtered.slice(1)
+
   return (
-    <div>
+    <div className="journal-content">
+      {featured && <Link href={`/writing/${featured.category}/${featured.slug}`} className="featured-story"><div><span>Featured writing</span><p>{getCategoryConfig(featured.category).label} · {featured.readTime}</p></div><h2>{featured.title}</h2><strong>{featured.excerpt}</strong><em>{fmt(featured.date)} →</em></Link>}
+      <section className="domain-explorer"><header><span>Explore by domain</span><p>Follow the subject, not the feed.</p></header><div>{FILTERS.slice(1).map((f, index) => <button key={f.key} className={active === f.key ? 'active' : ''} onClick={() => setActive(active === f.key ? 'all' : f.key)}><span>0{index + 1}</span>{f.label}</button>)}</div></section>
+      <div className="journal-tools">
       <label className="writing-search">
         <span>Search writing</span>
         <input value={query} onChange={(event) => setQuery(event.target.value)} type="search" placeholder="Java, MVCC, systems..." />
       </label>
-      {/* Filters */}
-      <div
-        className="mb-2 overflow-x-auto border-b pb-4"
-        style={{ borderColor: 'rgba(240,235,224,0.07)' }}
-      >
-        <div className="flex w-max min-w-full gap-2 rounded-lg border p-1.5" style={{ borderColor: 'rgba(240,235,224,0.08)', background: 'rgba(240,235,224,0.025)' }}>
+      <div className="journal-filters">
         {FILTERS.map((f) => (
           <button
             key={f.key}
             onClick={() => setActive(f.key)}
-            className="whitespace-nowrap rounded-md px-3 py-2 text-[13px] font-normal transition-colors duration-150"
-            style={{
-              color: active === f.key ? '#0a0a0a' : 'rgba(240,235,224,0.48)',
-              background: active === f.key ? '#c8f000' : 'transparent',
-            }}
+            className={active === f.key ? 'active' : ''}
           >
             {f.label}
           </button>
         ))}
-        </div>
+      </div>
       </div>
 
-      {/* Posts */}
+      <section className="latest-writing"><header><span>Latest writing</span><strong>{filtered.length} published</strong></header>
       {filtered.length === 0 ? (
         <p
           className="font-mono text-[12px] py-16 text-center"
@@ -71,53 +68,19 @@ export default function BlogClient({ posts }: { posts: PostMeta[] }) {
           No posts in this category yet.
         </p>
       ) : (
-        filtered.map((post) => {
+        remaining.map((post, index) => {
           const cfg = getCategoryConfig(post.category)
           return (
             <Link
               key={`${post.category}/${post.slug}`}
               href={`/writing/${post.category}/${post.slug}`}
-              className="group block py-5 -mx-4 px-4 transition-colors duration-150 border-b"
-              style={{ borderColor: 'rgba(240,235,224,0.05)' }}
+              className="journal-row"
             >
-              <div className="flex items-start justify-between gap-6 flex-wrap">
-                <div className="flex-1 min-w-0">
-                  <div
-                    className="font-mono text-[10px] uppercase tracking-[0.1em] mb-2"
-                    style={{ color: 'rgba(200,240,0,0.55)' }}
-                  >
-                    {cfg.label}
-                  </div>
-                  <h3
-                    className="font-display text-[18px] font-bold leading-snug tracking-tight transition-colors duration-150 group-hover:text-[#f5f1e8]"
-                    style={{ color: 'rgba(240,235,224,0.6)' }}
-                  >
-                    {post.title}
-                  </h3>
-                  <p
-                    className="text-[13px] font-light mt-1.5 line-clamp-1"
-                    style={{ color: 'rgba(240,235,224,0.3)' }}
-                  >
-                    {post.excerpt}
-                  </p>
-                  <span
-                    className="font-mono text-[11px] mt-2 block"
-                    style={{ color: 'rgba(240,235,224,0.22)' }}
-                  >
-                    {post.readTime}
-                  </span>
-                </div>
-                <span
-                  className="font-mono text-[11px] shrink-0 whitespace-nowrap mt-1"
-                  style={{ color: 'rgba(240,235,224,0.22)' }}
-                >
-                  {fmt(post.date)}
-                </span>
-              </div>
+              <span>0{index + 2}</span><div><small>{cfg.label}</small><h3>{post.title}</h3><p>{post.excerpt}</p></div><em>{fmt(post.date)}<br />{post.readTime}</em>
             </Link>
           )
         })
-      )}
+      )}</section>
     </div>
   )
 }
