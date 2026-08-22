@@ -7,6 +7,7 @@ import '@fontsource/geist/600.css'
 import '@fontsource/geist-mono/400.css'
 import '@fontsource/geist-mono/500.css'
 import './globals.css'
+import './visual-polish.css'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 
