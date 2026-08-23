@@ -4,7 +4,7 @@ import { extractHeadings, getAllPosts } from '@/lib/posts'
 
 describe('portfolio evidence', () => {
   it('keeps every featured project identifiable and linked to the canonical account', () => {
-    expect(projects).toHaveLength(5)
+    expect(projects).toHaveLength(6)
     expect(new Set(projects.map((project) => project.id)).size).toBe(projects.length)
     for (const project of projects) {
       expect(project.href).toMatch(/^https:\/\/github\.com\/Zebaali-hub\//)

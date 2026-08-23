@@ -2,15 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowUpRight, BookOpen, GitBranch, Link2, Target } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import type { Roadmap } from '@/data/roadmaps'
-
-const framework = [
-  { id: 'prerequisite', label: 'Prerequisite', detail: 'What must be understood first.', icon: Link2 },
-  { id: 'topic', label: 'Topic', detail: 'The concept currently in focus.', icon: Target },
-  { id: 'practice', label: 'Practice', detail: 'Evidence that the concept can be applied.', icon: GitBranch },
-  { id: 'writing', label: 'Related writing', detail: 'A deeper explanation when one is published.', icon: BookOpen },
-]
 
 export function RoadmapLandingGraph({ roadmaps }: { roadmaps: Roadmap[] }) {
   const [active, setActive] = useState(roadmaps[0].slug)
@@ -19,7 +12,7 @@ export function RoadmapLandingGraph({ roadmaps }: { roadmaps: Roadmap[] }) {
 }
 
 export function RoadmapFramework({ roadmap }: { roadmap: Roadmap }) {
-  const [active, setActive] = useState(framework[1].id)
-  const selected = framework.find((item) => item.id === active) ?? framework[1]
-  return <div className="framework-map"><div className="framework-track" aria-hidden="true" />{framework.map(({ id, label, icon: Icon }, index) => <button key={id} className={`framework-node framework-${index + 1} ${id === active ? 'active' : ''}`} onClick={() => setActive(id)} onFocus={() => setActive(id)}><Icon size={18} /><span>{label}</span></button>)}<div className="framework-panel"><span>{roadmap.status} framework</span><h2>{selected.label}</h2><p>{selected.detail}</p><small>No educational steps are published until technical review is complete.</small></div></div>
+  const [active, setActive] = useState(roadmap.steps[0].id)
+  const selected = roadmap.steps.find((item) => item.id === active) ?? roadmap.steps[0]
+  return <div className="roadmap-path"><div className="roadmap-step-list" aria-label={`${roadmap.title} learning order`}>{roadmap.steps.map((item, index) => <button key={item.id} className={item.id === active ? 'active' : ''} onClick={() => setActive(item.id)} onFocus={() => setActive(item.id)}><span>{String(index + 1).padStart(2, '0')}</span><strong>{item.title}</strong><small>{item.priority}</small></button>)}</div><article className="roadmap-step-panel" aria-live="polite"><span>{selected.priority} · current topic</span><h2>{selected.title}</h2><p>{selected.summary}</p><dl><div><dt>Prerequisite</dt><dd>{selected.prerequisites.join(', ') || 'Start here'}</dd></div><div><dt>Next step</dt><dd>{selected.nextStep}</dd></div></dl>{selected.resources.map((resource) => <a key={resource.url} href={resource.url} target="_blank" rel="noreferrer">{resource.kind}: {resource.label} <ArrowUpRight size={14} /></a>)}</article></div>
 }

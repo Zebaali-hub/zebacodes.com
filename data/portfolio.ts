@@ -10,7 +10,7 @@ export type Project = {
   learned: string
   stack: string[]
   href: string
-  visual: 'topology' | 'load' | 'logs' | 'pipeline' | 'loop'
+  visual: 'topology' | 'load' | 'logs' | 'pipeline' | 'loop' | 'resource'
 }
 
 export const projects: Project[] = [
@@ -83,6 +83,20 @@ export const projects: Project[] = [
     stack: ['React 19', 'TypeScript', 'Vite', 'pdf.js', 'compromise', 'localStorage'],
     href: 'https://github.com/Zebaali-hub/selfdrill',
     visual: 'loop',
+  },
+  {
+    id: 'java-backend-engineering',
+    name: 'Java Backend Engineering',
+    eyebrow: 'Building in public · Community learning resource',
+    summary: 'A practical, staged guide to Java backend engineering with reviewed explanations, runnable Java examples, interview prompts, and explicit module readiness.',
+    problem: 'Backend learning material is often fragmented or presented as disconnected syntax. This resource connects Java mechanics to production concerns and makes unfinished areas visible.',
+    architecture: 'A documentation-first repository organizes the learning path into numbered modules. Ready modules pair concise explanations with standalone Java 17 examples, verification commands, and interview question banks.',
+    decisions: ['Publish modules only after examples and links are verified', 'Keep runnable examples independent of frameworks', 'Separate ready material from the public roadmap'],
+    failures: 'The resource is intentionally incomplete. Module status is explicit, and planned sections are not presented as finished educational material.',
+    learned: 'A trustworthy learning resource needs a visible quality bar and progression model as much as it needs technical content.',
+    stack: ['Java 17+', 'JVM', 'Collections', 'Concurrency', 'Markdown'],
+    href: 'https://github.com/Zebaali-hub/java-backend-engineering',
+    visual: 'resource',
   },
 ]
 

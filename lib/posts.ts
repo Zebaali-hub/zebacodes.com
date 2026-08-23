@@ -9,9 +9,12 @@ export type PostMeta = {
   category: string
   title: string
   date: string
+  updated?: string
+  difficulty?: 'beginner' | 'intermediate' | 'advanced'
   tags: string[]
   excerpt: string
   readTime: string
+  related: string[]
 }
 
 export type Post = PostMeta & { content: string }
@@ -44,9 +47,12 @@ export function getAllPosts(): PostMeta[] {
         category,
         title:    data.title    ?? '',
         date:     data.date     ?? '',
+        updated:  data.updated,
+        difficulty: data.difficulty,
         tags:     data.tags     ?? [],
         excerpt:  data.excerpt  ?? '',
         readTime: data.readTime ?? estimateReadTime(content),
+        related:  data.related  ?? [],
       })
     }
   }
@@ -68,9 +74,12 @@ export function getPostBySlug(category: string, slug: string): Post | null {
     category,
     title:    data.title    ?? '',
     date:     data.date     ?? '',
+    updated:  data.updated,
+    difficulty: data.difficulty,
     tags:     data.tags     ?? [],
     excerpt:  data.excerpt  ?? '',
     readTime: data.readTime ?? estimateReadTime(content),
+    related:  data.related  ?? [],
     content,
   }
 }

@@ -1,5 +1,7 @@
 # Publishing a New Post
 
+For the content philosophy, explanation structure, metadata contract, and review checklist, see [`content/WRITING_GUIDE.md`](content/WRITING_GUIDE.md).
+
 1. Create a `.mdx` file: `/posts/[category]/your-slug.mdx`
 2. Add frontmatter:
 

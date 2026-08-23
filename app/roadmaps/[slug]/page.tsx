@@ -13,5 +13,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> { c
 export default async function RoadmapPage({ params }: Props) {
   const roadmap = getRoadmap((await params).slug)
   if (!roadmap) notFound()
-  return <div className="experience-page roadmap-experience"><PageEnvironment tone="map" /><Link className="experience-back" href="/roadmaps"><ArrowLeft size={15} /> All roadmaps</Link><header className="roadmap-detail-hero"><p><span>{roadmap.status}</span> Roadmap framework</p><h1>{roadmap.title}</h1><strong>{roadmap.scope}</strong></header><RoadmapFramework roadmap={roadmap} /></div>
+  return <div className="experience-page roadmap-experience"><PageEnvironment tone="map" /><Link className="experience-back" href="/roadmaps"><ArrowLeft size={15} /> All roadmaps</Link><header className="roadmap-detail-hero"><p><span>{roadmap.status}</span> {roadmap.steps.length} learning stages</p><h1>{roadmap.title}</h1><strong>{roadmap.scope}</strong></header><RoadmapFramework roadmap={roadmap} /></div>
 }
