@@ -51,3 +51,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# staged for deletion (device sandbox cannot rm)
+_to_delete/
+
+# transient sync archives
+_*.tgz

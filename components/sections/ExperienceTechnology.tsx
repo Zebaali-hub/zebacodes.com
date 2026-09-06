@@ -1,4 +1,4 @@
-import { ArrowUpRight, FileText } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { technologies } from '@/data/portfolio'
 import { Reveal } from '@/components/ui/Reveal'
 
@@ -10,7 +10,7 @@ const experience = [
 export function ExperienceTechnology() {
   return <>
     <section className="section experience-section" id="experience">
-      <div className="site-container section-heading horizontal"><div><p><span>05</span> Experience</p><h2>Depth built over time.</h2></div><a className="text-link" href="/Zeba_Ali_resume_.pdf" target="_blank"><FileText size={16} /> Open résumé</a></div>
+      <div className="site-container section-heading horizontal"><div><p><span>05</span> Experience</p><h2>Depth built over time.</h2></div></div>
       <div className="site-container timeline-v2">{experience.map((item, i) => <Reveal key={item.company} className="timeline-entry"><span className="timeline-period">{item.period}</span><div className="timeline-marker">0{i + 1}</div><div><h3>{item.company}</h3><h4>{item.role}</h4><p>{item.body}</p><ul>{item.evidence.map((x) => <li key={x}>{x}</li>)}</ul></div></Reveal>)}</div>
     </section>
     <section className="section technology-section" id="technology"><div className="site-container tech-layout"><div className="tech-intro"><p className="section-label"><span>06</span> Technology</p><h2>A restrained toolkit.</h2><p>Tools I have used in professional work or in the verified projects featured above.</p></div><div className="tech-constellation">{technologies.map(({ group, items }) => <div key={group}><span>{group}</span>{items.map((item) => <strong key={item}>{item}</strong>)}</div>)}</div></div></section>

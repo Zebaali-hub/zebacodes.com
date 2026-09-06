@@ -1,0 +1,475 @@
+/* ─────────────────────────────────────────────────────────────
+   Homepage reframe — database & AI-infrastructure positioning.
+   Scoped to .portfolio-v3 so it never collides with the older
+   portfolio-v2 rules still used by /projects, /journey, etc.
+   ───────────────────────────────────────────────────────────── */
+
+.portfolio-v3 {
+  --rf-bg: #0a0a0a;
+  --rf-panel: #0f0f0f;
+  --rf-line: rgba(240, 235, 224, 0.09);
+  --rf-line-soft: rgba(240, 235, 224, 0.05);
+  --rf-text: #f0ebe0;
+  --rf-muted: rgba(240, 235, 224, 0.56);
+  --rf-dim: rgba(240, 235, 224, 0.34);
+  --rf-accent: #c8f000;
+  --rf-mono: 'Geist Mono', ui-monospace, SFMono-Regular, monospace;
+
+  background: var(--rf-bg);
+  color: var(--rf-text);
+}
+
+.portfolio-v3 section { padding-block: clamp(56px, 8vw, 104px); }
+.portfolio-v3 h1,
+.portfolio-v3 h2,
+.portfolio-v3 h3 { text-wrap: balance; }
+.portfolio-v3 p { text-wrap: pretty; }
+
+.portfolio-v3 a:focus-visible,
+.portfolio-v3 button:focus-visible {
+  outline: 2px solid var(--rf-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Section titles ─────────────────────────────────────────── */
+.rf-section-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: clamp(28px, 4vw, 44px);
+  font: 500 11px/1 var(--rf-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rf-dim);
+}
+.rf-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rf-line);
+}
+.rf-section-title span { color: var(--rf-accent); }
+
+/* ── 1. Hero ────────────────────────────────────────────────── */
+.rf-hero {
+  padding-block: clamp(64px, 11vw, 132px) clamp(52px, 7vw, 92px);
+  border-bottom: 1px solid var(--rf-line);
+}
+.rf-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font: 500 11px/1 var(--rf-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rf-dim);
+  margin-bottom: clamp(22px, 3vw, 34px);
+}
+.rf-eyebrow i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--rf-accent);
+  box-shadow: 0 0 0 4px rgba(200, 240, 0, 0.13);
+}
+.rf-hero h1 {
+  max-width: 17ch;
+  font-size: clamp(34px, 6.2vw, 68px);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.028em;
+}
+.rf-hero h1 em {
+  font-style: normal;
+  color: var(--rf-accent);
+}
+/* Keep "AI-infrastructure" from breaking at its hyphen. */
+.rf-hero h1 .rf-nowrap { white-space: nowrap; }
+.rf-subline {
+  max-width: 62ch;
+  margin-top: clamp(22px, 3vw, 32px);
+  font-size: clamp(15px, 1.35vw, 17px);
+  font-weight: 300;
+  line-height: 1.68;
+  color: var(--rf-muted);
+}
+.rf-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(30px, 4vw, 42px);
+}
+.rf-cta,
+.rf-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: 4px;
+  font: 500 14px/1 var(--rf-mono);
+  text-decoration: none;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+}
+.rf-cta {
+  background: var(--rf-accent);
+  color: #0a0a0a;
+  font-weight: 600;
+}
+.rf-cta:hover { background: #d8ff26; }
+.rf-cta-ghost {
+  border: 1px solid var(--rf-line);
+  color: var(--rf-muted);
+}
+.rf-cta-ghost:hover {
+  border-color: rgba(200, 240, 0, 0.4);
+  color: var(--rf-text);
+}
+
+/* ── 2. What I work on ──────────────────────────────────────── */
+.rf-capabilities { border-bottom: 1px solid var(--rf-line); }
+.rf-cap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rf-line);
+  border: 1px solid var(--rf-line);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.rf-cap {
+  background: var(--rf-panel);
+  padding: clamp(22px, 2.6vw, 30px);
+}
+.rf-cap h3 {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+}
+.rf-cap p {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.66;
+  color: var(--rf-muted);
+}
+.rf-cap ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 18px;
+  list-style: none;
+  padding: 0;
+}
+.rf-cap li {
+  padding: 5px 9px;
+  border: 1px solid var(--rf-line);
+  border-radius: 3px;
+  font: 500 10.5px/1.35 var(--rf-mono);
+  color: var(--rf-dim);
+}
+
+/* ── 3. Projects ────────────────────────────────────────────── */
+.rf-work { border-bottom: 1px solid var(--rf-line); }
+.rf-positioning {
+  max-width: 58ch;
+  margin-bottom: clamp(40px, 5vw, 64px);
+  padding-left: clamp(16px, 2vw, 22px);
+  border-left: 2px solid var(--rf-accent);
+  font-size: clamp(16px, 1.5vw, 19px);
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--rf-text);
+}
+.rf-project-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(26px, 3.4vw, 40px);
+}
+.rf-project {
+  padding: clamp(22px, 3vw, 34px);
+  border: 1px solid var(--rf-line);
+  border-radius: 6px;
+  background: var(--rf-panel);
+}
+.rf-project > header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: 16px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--rf-line-soft);
+}
+.rf-project-index {
+  font: 500 11px/1.5 var(--rf-mono);
+  color: var(--rf-accent);
+  padding-top: 4px;
+}
+.rf-project h3 {
+  font-size: clamp(20px, 2.3vw, 27px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.rf-project-tagline {
+  max-width: 62ch;
+  margin-top: 7px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--rf-muted);
+}
+.rf-repo {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--rf-line);
+  border-radius: 4px;
+  font: 500 12px/1 var(--rf-mono);
+  color: var(--rf-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.18s, color 0.18s;
+}
+.rf-repo:hover { border-color: rgba(200, 240, 0, 0.4); color: var(--rf-accent); }
+
+/* Problem / Approach / Outcome */
+.rf-pao {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(18px, 2.4vw, 30px);
+  margin-top: 26px;
+}
+.rf-pao dt {
+  font: 500 10px/1 var(--rf-mono);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--rf-accent);
+  padding-bottom: 9px;
+  margin-bottom: 11px;
+  border-bottom: 1px solid var(--rf-line-soft);
+}
+.rf-pao dd {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 300;
+  line-height: 1.68;
+  color: var(--rf-muted);
+}
+.rf-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rf-line-soft);
+  list-style: none;
+}
+.rf-stack li {
+  padding: 4px 8px;
+  border-radius: 3px;
+  background: rgba(240, 235, 224, 0.04);
+  font: 500 10.5px/1.4 var(--rf-mono);
+  color: var(--rf-dim);
+}
+
+/* Architecture diagrams */
+.arch-figure { margin: 24px 0 0; }
+.arch-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.arch-figure figcaption {
+  margin-top: 10px;
+  font: 500 10px/1 var(--rf-mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(240, 235, 224, 0.24);
+}
+.arch-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: rgba(240, 235, 224, 0.018);
+  border: 1px solid var(--rf-line-soft);
+  border-radius: 5px;
+  padding: 10px;
+}
+.arch-node rect {
+  fill: rgba(240, 235, 224, 0.035);
+  stroke: rgba(240, 235, 224, 0.16);
+  stroke-width: 1;
+}
+.arch-node text {
+  fill: rgba(240, 235, 224, 0.86);
+  font: 500 13px var(--rf-mono, monospace);
+  text-anchor: middle;
+}
+.arch-node .arch-sub {
+  fill: rgba(240, 235, 224, 0.4);
+  font-size: 10.5px;
+  font-weight: 400;
+}
+.arch-node-key rect { stroke: var(--rf-accent); fill: rgba(200, 240, 0, 0.07); }
+.arch-node-key text { fill: #e8ffa0; }
+.arch-node-bus rect { fill: rgba(200, 240, 0, 0.05); stroke: rgba(200, 240, 0, 0.32); stroke-dasharray: 3 3; }
+.arch-node-out rect { stroke: rgba(240, 235, 224, 0.28); }
+.arch-edge path { fill: none; stroke: rgba(240, 235, 224, 0.3); stroke-width: 1.2; }
+.arch-edge marker path,
+.arch-svg marker path { fill: rgba(240, 235, 224, 0.42); stroke: none; }
+.arch-label text {
+  fill: rgba(240, 235, 224, 0.3);
+  font: 400 10px var(--rf-mono, monospace);
+  text-anchor: middle;
+}
+
+/* Screenshot slots — render only when files exist in public/projects/<dir> */
+.shot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+.shot {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin: 0;
+  border: 1px solid var(--rf-line-soft);
+  border-radius: 5px;
+  overflow: hidden;
+  background: rgba(240, 235, 224, 0.02);
+}
+.shot img { object-fit: cover; object-position: top center; }
+
+/* ── 4. Experience ──────────────────────────────────────────── */
+.rf-experience { border-bottom: 1px solid var(--rf-line); }
+.rf-role header { margin-bottom: 24px; }
+.rf-role h3 {
+  font-size: clamp(19px, 2.1vw, 24px);
+  font-weight: 600;
+  letter-spacing: -0.018em;
+}
+.rf-role h3 span { color: var(--rf-dim); font-weight: 300; }
+.rf-role-meta {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--rf-muted);
+}
+.rf-role-dates {
+  margin-top: 6px;
+  font: 500 11px/1 var(--rf-mono);
+  letter-spacing: 0.06em;
+  color: var(--rf-dim);
+}
+.rf-role ul {
+  list-style: none;
+  padding: 0;
+  max-width: 84ch;
+  border-top: 1px solid var(--rf-line-soft);
+}
+.rf-role li {
+  position: relative;
+  padding: 16px 0 16px 24px;
+  border-bottom: 1px solid var(--rf-line-soft);
+  font-size: 14.5px;
+  font-weight: 300;
+  line-height: 1.68;
+  color: var(--rf-muted);
+}
+.rf-role li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 26px;
+  width: 9px;
+  height: 1px;
+  background: var(--rf-accent);
+}
+.rf-role-prior {
+  max-width: 84ch;
+  margin-top: 26px;
+  font-size: 13.5px;
+  font-weight: 300;
+  line-height: 1.66;
+  color: var(--rf-dim);
+}
+
+/* ── 5. Contact ─────────────────────────────────────────────── */
+.rf-contact { text-align: left; }
+.rf-contact-status {
+  font: 500 11px/1 var(--rf-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rf-accent);
+  margin-bottom: 20px;
+}
+.rf-contact h2 {
+  font-size: clamp(28px, 4.6vw, 50px);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.028em;
+  max-width: 18ch;
+}
+.rf-contact-mail {
+  display: inline-block;
+  margin-top: clamp(24px, 3vw, 34px);
+  font: 600 clamp(17px, 2.4vw, 26px)/1.2 var(--rf-mono);
+  color: var(--rf-text);
+  text-decoration: none;
+  border-bottom: 2px solid var(--rf-accent);
+  padding-bottom: 4px;
+  word-break: break-word;
+}
+.rf-contact-mail:hover { color: var(--rf-accent); }
+.rf-contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin-top: clamp(28px, 3.4vw, 38px);
+}
+.rf-contact-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  font: 500 13px/1 var(--rf-mono);
+  color: var(--rf-muted);
+  text-decoration: none;
+}
+.rf-contact-links a:hover { color: var(--rf-accent); }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 1000px) {
+  .rf-cap-grid { grid-template-columns: 1fr; }
+  .rf-pao { grid-template-columns: 1fr; gap: 20px; }
+  .rf-pao > div + div { padding-top: 4px; }
+}
+
+/* The global footer repeats the contact CTA; the homepage has its own. */
+body:has(.portfolio-v3) .product-footer .footer-call { display: none; }
+
+@media (max-width: 760px) {
+  .portfolio-v3 section { padding-block: 48px; }
+  .rf-hero { padding-block: 52px 44px; }
+  .rf-project > header {
+    grid-template-columns: auto 1fr;
+    row-gap: 14px;
+  }
+  .rf-project-index { grid-row: 1; }
+  .rf-repo { grid-column: 1 / -1; justify-self: start; }
+  .rf-hero-actions { gap: 10px; }
+  .rf-cta, .rf-cta-ghost { flex: 1 1 auto; justify-content: center; font-size: 13px; }
+  .rf-project { padding: 18px 16px; }
+  /* Diagram text becomes unreadable if the SVG scales below ~620px, so scroll it. */
+  .arch-svg { padding: 4px; min-width: 620px; }
+  .arch-figure figcaption::after {
+    content: ' · scroll to pan';
+    color: rgba(200, 240, 0, 0.5);
+  }
+  .shot-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-v3 * { transition: none !important; }
+}

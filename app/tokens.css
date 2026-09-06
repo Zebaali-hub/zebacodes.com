@@ -1,0 +1,161 @@
+/* ─────────────────────────────────────────────────────────────
+   Design tokens — single source of truth for the curriculum
+   system and future page work.
+
+   Loaded FIRST in app/layout.tsx so every later stylesheet can
+   consume these. Existing page palettes (--bg, --accent, --ink,
+   the .portfolio-v2 / .portfolio-v3 scopes) still live in
+   globals.css and are deliberately untouched.
+
+   COLOUR HIERARCHY RULE — read before adding anything here:
+     Saturated colour is reserved for ACTIONABLE state (revision
+     buckets, mastery). Informational metadata (difficulty, tier)
+     uses desaturated colour. If everything shouts, the revision
+     queue stops reading at a glance, which is the one thing this
+     system exists to do.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* ── Tier scale — informational, desaturated ──────────────
+     Cool → warm → deep, reading as increasing depth rather
+     than increasing danger. Never used for status.          */
+  --tier-1:        #5FB3AC;
+  --tier-2:        #C39A54;
+  --tier-3:        #A87FB8;
+  --tier-1-soft:   rgba(95, 179, 172, 0.13);
+  --tier-2-soft:   rgba(195, 154, 84, 0.13);
+  --tier-3-soft:   rgba(168, 127, 184, 0.13);
+
+  /* ── Revision buckets — actionable, saturated ─────────────
+     The only colours allowed to compete with --accent.      */
+  --bucket-green:  #4FBF7B;
+  --bucket-yellow: #D9B341;
+  --bucket-red:    #E0664F;
+  --bucket-black:  #8A8A8A;
+  --bucket-green-soft:  rgba(79, 191, 123, 0.14);
+  --bucket-yellow-soft: rgba(217, 179, 65, 0.14);
+  --bucket-red-soft:    rgba(224, 102, 79, 0.14);
+  --bucket-black-soft:  rgba(138, 138, 138, 0.14);
+
+  /* ── Difficulty — informational, deliberately muted ───────
+     Conventional green/amber/red, desaturated so a page of
+     Mediums does not out-shout a single RED bucket.         */
+  --diff-easy:     #7FA98C;
+  --diff-medium:   #B39A66;
+  --diff-hard:     #B37F76;
+
+  /* ── Mastery levels 0–5 ───────────────────────────────────
+     Single-hue ramp: absence → presence. Level 5 borrows the
+     site accent — the only place mastery earns it.          */
+  --mastery-0:     rgba(240, 235, 224, 0.14);
+  --mastery-1:     rgba(240, 235, 224, 0.28);
+  --mastery-2:     rgba(240, 235, 224, 0.44);
+  --mastery-3:     #8FA86B;
+  --mastery-4:     #A8C457;
+  --mastery-5:     #C8F000;
+
+  /* ── Question classification ──────────────────────────────
+     Pedagogical role, not difficulty. Labels, not signals.  */
+  --class-foundation:  #7E9AB8;
+  --class-core:        #6FA8A2;
+  --class-variation:   #B39A66;
+  --class-advanced:    #A87FB8;
+  --class-combination: #C08A6E;
+  --class-exit:        #D9645C;
+
+  /* ── Curriculum surfaces — sit on the #0a0a0a ground ────── */
+  --dsa-surface:    #111111;
+  --dsa-surface-2:  #171717;
+  --dsa-line:       rgba(240, 235, 224, 0.09);
+  --dsa-line-soft:  rgba(240, 235, 224, 0.05);
+
+  /* ── Spacing + radius — 4px base scale ─────────────────── */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 8px;
+
+  /* ── Type scale — mono carries data, sans carries prose ── */
+  --fs-label:  10.5px;
+  --fs-meta:   11.5px;
+  --fs-body-s: 13px;
+  --fs-body:   14.5px;
+  --fs-body-l: 16px;
+  --fs-h3:     17px;
+  --fs-h2:     clamp(21px, 2.4vw, 28px);
+  --fs-h1:     clamp(28px, 4.4vw, 46px);
+
+  --font-ui:   'Geist', system-ui, -apple-system, sans-serif;
+  --font-data: 'Geist Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ── Shared primitives ──────────────────────────────────────
+   Used across every curriculum surface so a chip looks
+   identical everywhere it appears.                          */
+
+.dsa-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 2px 7px;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-sm);
+  font: 600 var(--fs-label) / 1.4 var(--font-data);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dsa-chip[data-tier='1'] { color: var(--tier-1); background: var(--tier-1-soft); }
+.dsa-chip[data-tier='2'] { color: var(--tier-2); background: var(--tier-2-soft); }
+.dsa-chip[data-tier='3'] { color: var(--tier-3); background: var(--tier-3-soft); }
+
+.dsa-chip[data-bucket='GREEN']  { color: var(--bucket-green);  background: var(--bucket-green-soft); }
+.dsa-chip[data-bucket='YELLOW'] { color: var(--bucket-yellow); background: var(--bucket-yellow-soft); }
+.dsa-chip[data-bucket='RED']    { color: var(--bucket-red);    background: var(--bucket-red-soft); }
+.dsa-chip[data-bucket='BLACK']  { color: var(--bucket-black);  background: var(--bucket-black-soft); }
+
+.dsa-chip[data-difficulty='Easy']   { color: var(--diff-easy); }
+.dsa-chip[data-difficulty='Medium'] { color: var(--diff-medium); }
+.dsa-chip[data-difficulty='Hard']   { color: var(--diff-hard); }
+
+.dsa-chip[data-class='FOUNDATION']  { color: var(--class-foundation); }
+.dsa-chip[data-class='CORE']        { color: var(--class-core); }
+.dsa-chip[data-class='VARIATION']   { color: var(--class-variation); }
+.dsa-chip[data-class='ADVANCED']    { color: var(--class-advanced); }
+.dsa-chip[data-class='COMBINATION'] { color: var(--class-combination); }
+.dsa-chip[data-class='EXIT_TEST']   { color: var(--class-exit); }
+
+/* Mastery ring — 0–5 as a conic sweep, not six flat colours. */
+.mastery-ring {
+  --level: 0;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--mastery-fill, var(--mastery-0)) calc(var(--level) * 60deg),
+    rgba(240, 235, 224, 0.08) 0
+  );
+}
+.mastery-ring::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: var(--dsa-surface);
+}
+.mastery-ring[data-level='0'] { --mastery-fill: var(--mastery-0); }
+.mastery-ring[data-level='1'] { --mastery-fill: var(--mastery-1); }
+.mastery-ring[data-level='2'] { --mastery-fill: var(--mastery-2); }
+.mastery-ring[data-level='3'] { --mastery-fill: var(--mastery-3); }
+.mastery-ring[data-level='4'] { --mastery-fill: var(--mastery-4); }
+.mastery-ring[data-level='5'] { --mastery-fill: var(--mastery-5); }
