@@ -2,6 +2,8 @@ import type { Pattern } from '../types'
 import { tier1Patterns } from './tier1'
 import { slidingWindowPatterns } from './sliding-window'
 import { tier1StructurePatterns } from './tier1-structures'
+import { tier2Patterns } from './tier2'
+import { tier3Patterns } from './tier3'
 
 /**
  * Tier 2 and Tier 3 pattern ids that are referenced by `combinesWith`
@@ -11,15 +13,15 @@ import { tier1StructurePatterns } from './tier1-structures'
  * Remove an id from here the moment its Pattern is written.
  */
 export const PLANNED_PATTERN_IDS = new Set<string>([
-  'dsu',
   'bucket-sort',
-  'dp-lis',
 ])
 
 export const patterns: Pattern[] = [
   ...tier1Patterns,
   ...slidingWindowPatterns,
   ...tier1StructurePatterns,
+  ...tier2Patterns,
+  ...tier3Patterns,
 ]
 
 export function getPattern(id: string) {

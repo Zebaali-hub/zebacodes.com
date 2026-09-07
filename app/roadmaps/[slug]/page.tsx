@@ -18,7 +18,7 @@ export default async function RoadmapPage({ params }: Props) {
   // actually reaches that depth. The other five keep the framework view
   // until their curricula exist.
   if (roadmap.slug === 'dsa') {
-    return <div className="experience-page dsa-page"><PageEnvironment tone="map" /><Link className="experience-back" href="/roadmaps"><ArrowLeft size={15} /> All roadmaps</Link><DsaRoadmap roadmap={roadmap} /></div>
+    return <div className="experience-page dsa-page"><PageEnvironment tone="map" /><Link className="experience-back" href="/roadmaps"><ArrowLeft size={15} /> All roadmaps</Link><DsaRoadmap /></div>
   }
 
   return <div className="experience-page roadmap-experience"><PageEnvironment tone="map" /><Link className="experience-back" href="/roadmaps"><ArrowLeft size={15} /> All roadmaps</Link><header className="roadmap-detail-hero"><p><span>{roadmap.status}</span> {roadmap.steps.length} learning stages</p><h1>{roadmap.title}</h1><strong>{roadmap.scope}</strong></header><RoadmapFramework roadmap={roadmap} /></div>

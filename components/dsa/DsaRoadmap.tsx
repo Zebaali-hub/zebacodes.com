@@ -1,142 +1,100 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import type { Roadmap } from '@/data/roadmaps'
+import { tiers } from '@/data/dsa/tiers'
 import { topics } from '@/data/dsa/topics'
 import { patterns, patternsByTopic } from '@/data/dsa/patterns'
 import { questions, questionsByPattern } from '@/data/dsa/questions'
 
 /**
- * The DSA roadmap, joined to the depth underneath it.
- *
- * The eight published steps stay as the spine. What was missing is that
- * each step now resolves to its topics, its patterns and its questions,
- * so the roadmap is an entry point rather than a dead end.
+ * The DSA roadmap, organised by TIER — the cumulative structure the
+ * curriculum is actually built on. Tier 2 does not replace Tier 1 and
+ * Tier 3 does not replace Tier 2, so the page reads downward as
+ * accumulating depth rather than as alternative tracks.
  */
-export function DsaRoadmap({ roadmap }: { roadmap: Roadmap }) {
-  const authoredQuestions = questions.length
-
-  const orphanTopics = topics.filter(
-    (topic) => !topic.roadmapStepId && patternsByTopic(topic.id).length > 0,
-  )
-
+export function DsaRoadmap() {
   return (
     <div className="dsa-map">
       <header className="dsa-map-hero">
-        <p className="dsa-map-eyebrow">
-          <span>{roadmap.status}</span> Data structures &amp; algorithms
+        <p className="dsa-map-eyebrow"><span>Roadmap</span> Data structures &amp; algorithms</p>
+        <h1>Three tiers,<br />cumulative.</h1>
+        <p className="dsa-map-scope">
+          Tier 2 does not replace Tier 1, and Tier 3 does not replace Tier 2. Preparing for the top of
+          this map still means owning everything below it.
         </p>
-        <h1>{roadmap.title}</h1>
-        <p className="dsa-map-scope">{roadmap.scope}</p>
         <dl className="dsa-map-stats">
-          <div><dt>Stages</dt><dd>{roadmap.steps.length}</dd></div>
+          <div><dt>Tiers</dt><dd>3</dd></div>
+          <div><dt>Topics</dt><dd>{topics.length}</dd></div>
           <div><dt>Patterns</dt><dd>{patterns.length}</dd></div>
-          <div><dt>Questions</dt><dd>{authoredQuestions}</dd></div>
+          <div><dt>Questions</dt><dd>{questions.length}</dd></div>
         </dl>
-        <p className="dsa-map-note">
-          Each stage below opens into its patterns. A pattern page leads with the constraint shapes
-          and problem wording that should make you reach for it — recognition first, definitions last.
-        </p>
         <Link className="dsa-map-cta" href="/roadmaps/dsa/patterns">
           Browse all patterns <ArrowUpRight size={14} aria-hidden="true" />
         </Link>
       </header>
 
-      <ol className="dsa-stage-list">
-        {roadmap.steps.map((step, index) => {
-          const stageTopics = topics.filter((topic) => topic.roadmapStepId === step.id)
-          const stagePatterns = stageTopics.flatMap((topic) => patternsByTopic(topic.id))
-          const stageQuestions = stagePatterns.reduce(
+      <div className="dsa-tiers">
+        {tiers.map((tier) => {
+          const tierTopics = topics.filter((topic) => topic.tier === tier.id)
+          const tierPatterns = patterns.filter((pattern) => pattern.tier === tier.id)
+          const tierQuestions = tierPatterns.reduce(
             (sum, pattern) => sum + questionsByPattern(pattern.id).length, 0,
           )
 
           return (
-            <li key={step.id} className="dsa-stage">
-              <div className="dsa-stage-rail" aria-hidden="true">
-                <span className="dsa-stage-num">{String(index + 1).padStart(2, '0')}</span>
-                {index < roadmap.steps.length - 1 ? <i className="dsa-stage-line" /> : null}
-              </div>
+            <section key={tier.id} className="dsa-tier" data-tier={tier.id} aria-labelledby={`tier-${tier.id}`}>
+              <div className="dsa-tier-bar" aria-hidden="true" />
 
-              <div className="dsa-stage-body">
-                <div className="dsa-stage-head">
-                  <h2>{step.title}</h2>
-                  <span className="dsa-chip" data-priority={step.priority}>{step.priority}</span>
-                  {stagePatterns.length > 0 ? (
-                    <span className="dsa-stage-count">
-                      {stagePatterns.length} pattern{stagePatterns.length === 1 ? '' : 's'}
-                      {stageQuestions > 0 ? ` · ${stageQuestions} question${stageQuestions === 1 ? '' : 's'}` : ''}
-                    </span>
-                  ) : null}
+              <div className="dsa-tier-head">
+                <p className="dsa-tier-index" aria-hidden="true">Tier {tier.id}</p>
+                <div>
+                  <h2 id={`tier-${tier.id}`}>{tier.title}</h2>
+                  <p className="dsa-tier-goal">{tier.goal}</p>
                 </div>
-                <p className="dsa-stage-summary">{step.summary}</p>
-
-                {stageTopics.length === 0 ? (
-                  <p className="dsa-stage-pending">No depth authored for this stage yet.</p>
-                ) : (
-                  <div className="dsa-stage-topics">
-                    {stageTopics.map((topic) => {
-                      const topicPatterns = patternsByTopic(topic.id)
-                      return (
-                        <div key={topic.id} className="dsa-stage-topic">
-                          <h3>{topic.title}</h3>
-                          {topicPatterns.length === 0 ? (
-                            <p className="dsa-stage-pending">Patterns pending.</p>
-                          ) : (
-                            <ul>
-                              {topicPatterns.map((pattern) => {
-                                const count = questionsByPattern(pattern.id).length
-                                return (
-                                  <li key={pattern.id}>
-                                    <Link href={`/roadmaps/dsa/patterns/${pattern.id}`}>
-                                      {pattern.title}
-                                      {count > 0 ? <em>{count}</em> : null}
-                                      <ArrowUpRight size={11} aria-hidden="true" />
-                                    </Link>
-                                  </li>
-                                )
-                              })}
-                            </ul>
-                          )}
-                        </div>
-                      )
-                    })}
-                  </div>
-                )}
-              </div>
-            </li>
-          )
-        })}
-      </ol>
-
-      {orphanTopics.length > 0 ? (
-        <section className="dsa-orphans">
-          <h2>Beyond the published path</h2>
-          <p>
-            These carry patterns but map to no stage above — the published path does not cover them yet.
-            Left visible rather than forced into a stage where they do not belong.
-          </p>
-          <div className="dsa-stage-topics">
-            {orphanTopics.map((topic) => (
-              <div key={topic.id} className="dsa-stage-topic">
-                <h3>{topic.title}</h3>
-                <ul>
-                  {patternsByTopic(topic.id).map((pattern) => {
-                    const count = questionsByPattern(pattern.id).length
-                    return (
-                      <li key={pattern.id}>
-                        <Link href={`/roadmaps/dsa/patterns/${pattern.id}`}>
-                          {pattern.title}
-                          {count > 0 ? <em>{count}</em> : null}
-                          <ArrowUpRight size={11} aria-hidden="true" />
-                        </Link>
-                      </li>
-                    )
-                  })}
+                <ul className="dsa-tier-stats" aria-label={`Tier ${tier.id} scale`}>
+                  <li><b>{tierTopics.length}</b><span>topics</span></li>
+                  <li><b>{tierPatterns.length}</b><span>patterns</span></li>
+                  <li><b>{tierQuestions}</b><span>questions</span></li>
+                  <li><b>{Math.round(tier.targetIndependentRate * 100)}%</b><span>target unaided</span></li>
                 </ul>
               </div>
-            ))}
-          </div>
-        </section>
-      ) : null}
+
+              <details className="dsa-tier-exit">
+                <summary>Exit criteria — what leaving this tier requires</summary>
+                <ol>{tier.exitCriteria.map((criterion) => <li key={criterion}>{criterion}</li>)}</ol>
+              </details>
+
+              <div className="dsa-topic-cards">
+                {tierTopics.map((topic) => {
+                  const topicPatterns = patternsByTopic(topic.id)
+                  return (
+                    <article key={topic.id} className={`dsa-topic-card ${topicPatterns.length === 0 ? 'is-pending' : ''}`}>
+                      <h3>{topic.title}</h3>
+                      <p>{topic.summary}</p>
+                      {topicPatterns.length === 0 ? (
+                        <p className="dsa-pending-note">Patterns not written yet</p>
+                      ) : (
+                        <ul>
+                          {topicPatterns.map((pattern) => {
+                            const count = questionsByPattern(pattern.id).length
+                            return (
+                              <li key={pattern.id}>
+                                <Link href={`/roadmaps/dsa/patterns/${pattern.id}`}>
+                                  {pattern.title}
+                                  {count > 0 ? <em>{count}</em> : null}
+                                </Link>
+                              </li>
+                            )
+                          })}
+                        </ul>
+                      )}
+                    </article>
+                  )
+                })}
+              </div>
+            </section>
+          )
+        })}
+      </div>
     </div>
   )
 }
