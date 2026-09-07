@@ -53,9 +53,20 @@
 
 /* ── 1. Hero ────────────────────────────────────────────────── */
 .rf-hero {
-  padding-block: clamp(64px, 11vw, 132px) clamp(52px, 7vw, 92px);
+  padding-block: clamp(48px, 7vw, 88px) clamp(44px, 6vw, 76px);
   border-bottom: 1px solid var(--rf-line);
 }
+/* Two columns: the positioning copy, and the portrait system that
+   carries the visual identity. Single column below 940px, portrait
+   first so the page still opens on a face on a phone. */
+.rf-hero-grid {
+  display: grid;
+  grid-template-columns: 1.04fr 0.96fr;
+  gap: clamp(28px, 4.5vw, 64px);
+  align-items: center;
+}
+.rf-hero-copy { min-width: 0; }
+.rf-hero-portrait { display: flex; align-items: center; justify-content: center; }
 .rf-eyebrow {
   display: flex;
   align-items: center;
@@ -449,9 +460,15 @@
 /* The global footer repeats the contact CTA; the homepage has its own. */
 body:has(.portfolio-v3) .product-footer .footer-call { display: none; }
 
+@media (max-width: 940px) {
+  .rf-hero-grid { grid-template-columns: 1fr; gap: 8px; }
+  .rf-hero-portrait { order: -1; }
+  .rf-hero h1 { max-width: none; }
+}
+
 @media (max-width: 760px) {
   .portfolio-v3 section { padding-block: 48px; }
-  .rf-hero { padding-block: 52px 44px; }
+  .rf-hero { padding-block: 36px 44px; }
   .rf-project > header {
     grid-template-columns: auto 1fr;
     row-gap: 14px;
