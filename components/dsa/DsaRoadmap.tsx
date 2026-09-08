@@ -1,13 +1,34 @@
-import Link from 'next/link'
-import { ArrowUpRight } from 'lucide-react'
 import { tiers } from '@/data/dsa/tiers'
 import { topics } from '@/data/dsa/topics'
-import { patterns } from '@/data/dsa/patterns'
-import { questions } from '@/data/dsa/questions'
-import { DsaRoadmapGraph } from './DsaRoadmapGraph'
+import { patterns, patternsByTopic } from '@/data/dsa/patterns'
+import { questions, questionsByPattern } from '@/data/dsa/questions'
+import { RoadmapTree, type TierNode } from './RoadmapTree'
 
-/** The DSA roadmap: a short frame, then the graph. */
+/** Builds the tree on the server; RoadmapTree only handles open/closed state. */
 export function DsaRoadmap() {
+  const nodes: TierNode[] = tiers.map((tier) => {
+    const tierTopics = topics
+      .filter((topic) => topic.tier === tier.id)
+      .map((topic) => {
+        const topicPatterns = patternsByTopic(topic.id)
+        return {
+          topic,
+          patterns: topicPatterns,
+          questionCounts: Object.fromEntries(
+            topicPatterns.map((pattern) => [pattern.id, questionsByPattern(pattern.id).length]),
+          ),
+        }
+      })
+
+    const tierPatterns = tierTopics.flatMap((entry) => entry.patterns)
+    return {
+      tier,
+      topics: tierTopics,
+      patternCount: tierPatterns.length,
+      questionCount: tierPatterns.reduce((sum, p) => sum + questionsByPattern(p.id).length, 0),
+    }
+  })
+
   return (
     <div className="dsa-map">
       <header className="dsa-map-hero">
@@ -15,7 +36,8 @@ export function DsaRoadmap() {
         <h1>Three tiers,<br />cumulative.</h1>
         <p className="dsa-map-scope">
           Tier 1 first, then Tier 2, then Tier 3 — and nothing below ever stops mattering.
-          Every box is a pattern you can open.
+          Open a topic to see its patterns, its sub-patterns, and the signal that should make
+          you reach for it.
         </p>
         <dl className="dsa-map-stats">
           <div><dt>Tiers</dt><dd>3</dd></div>
@@ -25,23 +47,7 @@ export function DsaRoadmap() {
         </dl>
       </header>
 
-      <ul className="rmg-legend">
-        {tiers.map((tier) => (
-          <li key={tier.id} data-tier={tier.id}>
-            <i aria-hidden="true" />
-            <b>Tier {tier.id}</b>
-            <span>{tier.title}</span>
-          </li>
-        ))}
-      </ul>
-
-      <DsaRoadmapGraph />
-
-      <p className="rmg-foot">
-        <Link href="/roadmaps/dsa/patterns">
-          Browse every pattern as a list <ArrowUpRight size={14} aria-hidden="true" />
-        </Link>
-      </p>
+      <RoadmapTree tiers={nodes} />
     </div>
   )
 }

@@ -63,11 +63,28 @@
   --class-combination: #C08A6E;
   --class-exit:        #D9645C;
 
+
+  /* ── Text ramp — SOLID values, not low-alpha whites ───────
+     Low-opacity text on a near-black ground is what made the
+     pages read as dull. Every level below clears WCAG AA on
+     #0a0a0a; use --txt-3 as the FLOOR, never anything fainter. */
+  --txt-1: #F7F4EC;   /* headings, box titles            ~18:1 */
+  --txt-2: #D8D3C7;   /* body, pattern labels            ~12:1 */
+  --txt-3: #A8A399;   /* meta, counts, captions           ~7:1 */
+
+  /* Brighter tier colours for text and fills on dark. */
+  --tier-1-bright: #6FE3D2;
+  --tier-2-bright: #F5C55C;
+  --tier-3-bright: #D79FE8;
+  --tier-1-fill: rgba(111, 227, 210, 0.16);
+  --tier-2-fill: rgba(245, 197, 92, 0.16);
+  --tier-3-fill: rgba(215, 159, 232, 0.16);
+
   /* ── Curriculum surfaces — sit on the #0a0a0a ground ────── */
-  --dsa-surface:    #111111;
-  --dsa-surface-2:  #171717;
-  --dsa-line:       rgba(240, 235, 224, 0.09);
-  --dsa-line-soft:  rgba(240, 235, 224, 0.05);
+  --dsa-surface:    #16181B;
+  --dsa-surface-2:  #1E2126;
+  --dsa-line:       rgba(240, 235, 224, 0.20);
+  --dsa-line-soft:  rgba(240, 235, 224, 0.11);
 
   /* ── Spacing + radius — 4px base scale ─────────────────── */
   --sp-1: 4px;

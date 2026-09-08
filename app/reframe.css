@@ -6,12 +6,12 @@
 
 .portfolio-v3 {
   --rf-bg: #0a0a0a;
-  --rf-panel: #0f0f0f;
-  --rf-line: rgba(240, 235, 224, 0.09);
-  --rf-line-soft: rgba(240, 235, 224, 0.05);
-  --rf-text: #f0ebe0;
-  --rf-muted: rgba(240, 235, 224, 0.56);
-  --rf-dim: rgba(240, 235, 224, 0.34);
+  --rf-panel: #141618;
+  --rf-line: rgba(240, 235, 224, 0.18);
+  --rf-line-soft: rgba(240, 235, 224, 0.10);
+  --rf-text: #F7F4EC;
+  --rf-muted: #D8D3C7;
+  --rf-dim: #A8A399;
   --rf-accent: #c8f000;
   --rf-mono: 'Geist Mono', ui-monospace, SFMono-Regular, monospace;
 
@@ -295,7 +295,7 @@
   font: 500 10px/1 var(--rf-mono);
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: rgba(240, 235, 224, 0.24);
+  color: var(--rf-dim);
 }
 .arch-svg {
   display: block;
