@@ -57,3 +57,4 @@ _to_delete/
 
 # transient sync archives
 _*.tgz
+_removed/
