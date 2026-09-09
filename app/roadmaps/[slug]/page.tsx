@@ -1,25 +1,69 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
-import { getRoadmap, roadmaps } from '@/data/roadmaps'
+import { roadmaps as legacyRoadmaps, getRoadmap as getLegacyRoadmap } from '@/data/roadmaps'
 import { PageEnvironment } from '@/components/ui/PageEnvironment'
 import { RoadmapFramework } from '@/components/RoadmapGraph'
-import { DsaRoadmap } from '@/components/dsa/DsaRoadmap'
+import { RoadmapExplorer } from '@/features/roadmap/RoadmapExplorer'
+import { buildIndex, buildRoadmapView, roadmapIdForSlug, roadmapNav, SLUGS } from '@/features/roadmap/build'
 
 type Props = { params: Promise<{ slug: string }> }
-export function generateStaticParams() { return roadmaps.map(({ slug }) => ({ slug })) }
-export async function generateMetadata({ params }: Props): Promise<Metadata> { const roadmap = getRoadmap((await params).slug); return roadmap ? { title: `${roadmap.title} Roadmap`, description: roadmap.scope, alternates: { canonical: `/roadmaps/${roadmap.slug}` } } : {} }
+
+export function generateStaticParams() {
+  const modern = Object.values(SLUGS).map((slug) => ({ slug }))
+  const legacy = legacyRoadmaps
+    .map((r) => r.slug)
+    .filter((slug) => !roadmapIdForSlug(slug))
+    .map((slug) => ({ slug }))
+  return [...modern, ...legacy]
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const id = roadmapIdForSlug(slug)
+  if (id) {
+    const view = buildRoadmapView(id)
+    if (view) {
+      return {
+        title: `${view.title} Roadmap`,
+        description: view.scope,
+        alternates: { canonical: `/roadmaps/${view.slug}` },
+      }
+    }
+  }
+  const legacy = getLegacyRoadmap(slug)
+  return legacy ? { title: `${legacy.title} Roadmap`, description: legacy.scope } : {}
+}
 
 export default async function RoadmapPage({ params }: Props) {
-  const roadmap = getRoadmap((await params).slug)
-  if (!roadmap) notFound()
-  // The DSA roadmap has real depth behind it, so it gets a view that
-  // actually reaches that depth. The other five keep the framework view
-  // until their curricula exist.
-  if (roadmap.slug === 'dsa') {
-    return <div className="experience-page dsa-page"><PageEnvironment tone="map" /><Link className="experience-back" href="/roadmaps"><ArrowLeft size={15} /> All roadmaps</Link><DsaRoadmap /></div>
+  const { slug } = await params
+  const id = roadmapIdForSlug(slug)
+
+  if (id) {
+    const view = buildRoadmapView(id)
+    if (!view) notFound()
+    return (
+      <Suspense fallback={<div className="ws rx-loading" />}>
+        <RoadmapExplorer roadmap={view} index={buildIndex()} nav={roadmapNav()} />
+      </Suspense>
+    )
   }
 
-  return <div className="experience-page roadmap-experience"><PageEnvironment tone="map" /><Link className="experience-back" href="/roadmaps"><ArrowLeft size={15} /> All roadmaps</Link><header className="roadmap-detail-hero"><p><span>{roadmap.status}</span> {roadmap.steps.length} learning stages</p><h1>{roadmap.title}</h1><strong>{roadmap.scope}</strong></header><RoadmapFramework roadmap={roadmap} /></div>
+  // Roadmaps that have no authored content yet keep the original framework view.
+  const legacy = getLegacyRoadmap(slug)
+  if (!legacy) notFound()
+  return (
+    <div className="experience-page roadmap-experience">
+      <PageEnvironment tone="map" />
+      <Link className="experience-back" href="/roadmaps"><ArrowLeft size={15} /> All roadmaps</Link>
+      <header className="roadmap-detail-hero">
+        <p><span>{legacy.status}</span> {legacy.steps.length} learning stages</p>
+        <h1>{legacy.title}</h1>
+        <strong>{legacy.scope}</strong>
+      </header>
+      <RoadmapFramework roadmap={legacy} />
+    </div>
+  )
 }

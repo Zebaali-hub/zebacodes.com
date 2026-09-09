@@ -1,0 +1,95 @@
+/* ─────────────────────────────────────────────────────────────
+   Design system — the approved direction.
+
+   Colour is TWO layers and they never mix:
+     · Interface  — one accent (cyan-teal), used ONLY for
+                    interactive affordance. If it appears, it does
+                    something.
+     · Data       — encoding scales (tier, status). Used ONLY where
+                    colour carries meaning, and always paired with a
+                    label so nothing depends on colour alone.
+
+   Lime is demoted to the data layer as a single "current/active"
+   signal. It no longer defines the interface.
+
+   Type: Geist Sans for prose, Geist Mono for anything measurable —
+   identifiers, counts, types, complexities, tiers. No third family.
+   ───────────────────────────────────────────────────────────── */
+
+.ws {
+  /* Ground and surfaces — cool near-black, elevation by ramp not shadow */
+  --bg:        #0B0D0F;
+  --surface-1: #131619;
+  --surface-2: #1A1E22;
+  --surface-3: #22272C;
+  --rule:      #262B31;
+  --rule-soft: #1D2126;
+
+  /* Ink — solid values, never low-alpha white */
+  --ink-1: #F0F2F4;
+  --ink-2: #C3C9D0;
+  --ink-3: #8B939C;
+
+  /* Interface accent — interaction only */
+  --accent:      #5CC5E6;
+  --accent-hi:   #8AD8F2;
+  --accent-dim:  rgba(92, 197, 230, 0.14);
+  --accent-ink:  #06232E;
+
+  /* Data layer — tier encoding */
+  --tier-1: #56C7B4;
+  --tier-2: #D9A44B;
+  --tier-3: #B98AD1;
+  --tier-1-bg: rgba(86, 199, 180, 0.13);
+  --tier-2-bg: rgba(217, 164, 75, 0.13);
+  --tier-3-bg: rgba(185, 138, 209, 0.13);
+
+  /* Data layer — status. Lime lives here now, and only here. */
+  --signal-current: #C8F000;
+  --signal-warn:    #E0A94C;
+  --signal-alert:   #E8796B;
+
+  /* Depth encoding */
+  --depth-awareness: #8B939C;
+  --depth-working:   #56C7B4;
+  --depth-deep:      #5CC5E6;
+
+  --sans: 'Geist', system-ui, -apple-system, sans-serif;
+  --mono: 'Geist Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
+  --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px;
+  --r1: 3px;  --r2: 5px;  --r3: 6px;
+
+  --rail-w: 64px;
+  --panel-w: 400px;
+
+  --dur-fast: 160ms;
+  --dur-base: 200ms;
+  --dur-edge: 340ms;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  background: var(--bg);
+  color: var(--ink-1);
+  font-family: var(--sans);
+}
+
+.ws *:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r1);
+}
+
+/* Anything measurable is mono. Prose is sans. No exceptions. */
+.ws .m { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ws *, .ws *::before, .ws *::after {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+  }
+}
+
+/* ── Density: one attribute, two audiences ────────────────── */
+.ws[data-density='recruiter'] [data-depth-only] { display: none; }
+.ws[data-density='engineer']  [data-scan-only]  { display: none; }
